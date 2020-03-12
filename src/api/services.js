@@ -11,5 +11,8 @@ export default {
   },
   cycleData: {
     cycleData: '/monitor/cycleData'
+  },
+  login: {
+    checkToken: 'vhr/api/admin/v1.0/goLogin'
   }
 }

@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import services from '../../api/services'
   export default {
     name: 'land',
     data () {
@@ -81,24 +82,34 @@
       loginNavToSecond() {
         this.$emit('loginNav', 2)
       },
-      submit(loginForm) {
-        this.$refs[loginForm].validate((valid) => {
-          if (valid) {
-            let access_token = 'qwerdasdadqeffgsg'
-            // let user_info = {
-            //   name: '管理员',
-            //   code: 'admin',
-            //   email: '984726119@qq.com',
-            //   phone: '13596459384'
-            // }
-            this.$store.dispatch('user/access_token', access_token)
-            // this.$store.dispatch('user/user_info')
-            this.$router.push({ name: 'userGuide' })
-          } else {
-            this.$Message.warning('请完善登录信息!')
-          }
-        })
-      }
+        submit(loginForm) {
+	    	      this.$refs[loginForm].validate((valid) => {
+	    	        if (valid) {
+                    let access_token = 'qwerdasdadqeffgsg'
+                    this.$store.dispatch('user/access_token', access_token)
+	    	          // // let CryptoJS_password = this.$publicFunc.encrypt(this.loginForm.password)
+	    	          let formData = {
+	    	            username: 'zlrzlr',
+	    	            password: '123123',
+	    	            authority: '12123'
+	    	          }
+	    	          this.$http.post(services.login.checkToken, formData).then(res => {
+	    	            if (res && res.data) {
+	    	              if (res.data) {
+	    	             
+	    	               if(res.data.resultMessage === '000000'){
+	    	                    this.$router.push('pages/userGuide')
+	    	                 
+	    	               }
+	    	            
+	    	              }
+	    	            }
+	    	          })
+	    	        } else {
+	    	          this.$Message.warning('请完善登录信息!')
+	    	        }
+	    	      })
+	    	    }
     }
   }
 </script>
