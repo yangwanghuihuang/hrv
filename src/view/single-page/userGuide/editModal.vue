@@ -2,7 +2,7 @@
     <div>
        <Modal v-model="modal2" width="800"  @on-cancel="cancel">
         <p slot="header" style="color:#f60;text-align:left" >
-            <Button type="primary" :loading="modal_loading" @click="del('0')">提交</Button>
+            <Button type="primary" :loading="modal_loading" @click="del('0')">保存</Button>
 
             <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
         </p>
@@ -78,7 +78,7 @@ export default {
                 birthday:'',
                 sex:'',
                 phone:'',
-                workID:'',
+                // workID:'',
                 tiptopDegree: '',
                 workAge:'',
                 daterange:'',
@@ -87,20 +87,58 @@ export default {
                 },
         }
     },
+    props:{
+       infoId:{
+          type:String,
+          default:''
+        },
+    },
+     mounted() { 
+         console.dir()
+      let tmp={
+          pageNum:1,
+          pageSize:10,
+          workid:this.infoId
+      }
+      this.$http
+      .post(services.mock.data_list)
+      .then(
+        res => {
+          if (res.data && res) {
+             this.dataTotal = res.data
+             this.dataCount = this.dataTotal.length
+               this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
+             if (this.dataTotal.length < this.pageSize) {
+                    this.data1 = this.dataTotal
+                } else {
+                    this.data1 = this.dataTotal.slice(0, this.pageSize)
+                }
+
+            // 进行跳转成功页面
+            // 成功后调用服务
+            // 给父组件传递flag标志，1为关闭当前，打开success。
+          } else if (res.data && res.data.resultCode !== '000000') {
+            this.$dialog.alert({ message: '服务器调用出错！' })
+          }
+        },
+        res => {
+          // error callback
+        }
+      )
+    },
     methods: {
         del (value) {
             if (value === '1') {
-                this.$emit('save', '1')
+                this.$emit('edit', '1')
             }
             //保存
             if (value === '0') {
-                this.$emit('save', '0')
+                this.$emit('edit', '0')
                 alert("llll")
                  this.$http
                 .post(services.emplyeeInfo.emplyeeInfo,this.formValidate)
                 .then(
                     res => {
-                        alert("456")
                     if (res.data && res) {
                         this.dataTotal = res.data
                         this.dataCount = this.dataTotal.length
@@ -125,7 +163,7 @@ export default {
             }
             },
         cancel () {
-              this.$emit('save', '1')
+              this.$emit('edit', '1')
             }
     }
 }

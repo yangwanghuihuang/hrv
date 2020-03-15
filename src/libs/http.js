@@ -9,6 +9,7 @@ const HttpPlugin = {
   }
 }
 axios.interceptors.request.use(config => {
+
   iView.LoadingBar.start()
   // console.log(config)
   let access_token = sessionStorage.getItem('access_token')
@@ -37,6 +38,7 @@ axios.interceptors.request.use(config => {
   //     "test": "testVAl"
   //   });
   // }
+  console.dir(config)
   return config
 }, error => {
   return Promise.reject(error)
@@ -44,6 +46,7 @@ axios.interceptors.request.use(config => {
 
 // http response 封装后台返回拦截器
 axios.interceptors.response.use(response => {
+  console.dir(response)
   iView.LoadingBar.finish()
   return response
   // console.log(response)

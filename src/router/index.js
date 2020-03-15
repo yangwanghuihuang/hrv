@@ -27,6 +27,8 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const access_token = store.state.user.access_token
+  console.dir(access_token)
+  console.dir(to.name)
   if (!access_token && to.name === 'login') {
     next()
   } else if (!access_token && to.name !== 'login') {

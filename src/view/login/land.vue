@@ -26,9 +26,9 @@
               <Input placeholder="请输入验证码" v-model="loginForm.identifyCodes"></Input>
             </Col>
             <Col span="5" offset="1">
-              <Button v-if="requestCodeFlag === false" @click="getVerificationCode">获取验证码</Button>
-              <span v-if="requestCodeFlag === true && !codeUrl">获取中...</span>
               <!--<img :src="codeUrl" v-if="codeUrl" @click="getVerificationCode"/>-->
+               <Button type="primary" v-if="sendValidationCode"  @click="getValidation()">获取验证码</Button>
+               <span class="validate" v-show="!sendValidationCode">{{validationTime}}s后重新发送 </span>
             </Col>
           </Row>
         </FormItem>
@@ -46,6 +46,8 @@ import services from '../../api/services'
     name: 'land',
     data () {
       return {
+        sendValidationCode:true,
+        validationTime:0,
         codeUrl: '',
         requestCodeFlag: false,
         loginForm: {
@@ -61,23 +63,53 @@ import services from '../../api/services'
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' }
           ],
-          identifyCodes: [
-            { required: true, message: '请输入验证码', trigger: 'blur' }
-          ]
-        }
+        },
+        data:''
       }
     },
     mounted() {},
     methods: {
       /* 获取验证码 **/
-      getVerificationCode() {
-        this.requestCodeFlag = true
-        // let num = (new Date().getTime())
-        // this.$http.get(services.login.CreateCodeImage + '?' + num).then(res => {
-        //   if (res && res.data) {
-        //     this.codeUrl = res.data
-        //   }
-        // })
+      getValidation() {
+       
+        this.$refs['loginForm'].validate((valid)=>{
+           if(valid){
+              alert("lll")
+               this.sendValidationCode=false
+               this.validationTime = 60
+        var timetimer =  setInterval(()=>{
+                this.validationTime--;
+                if(this.validationTime<=0){
+                    this.sendValidationCode = true;
+                    clearInterval(timetimer);
+                }
+            }, 1000);
+        
+         this.$http
+          .post(services.getValidation.getValidation)
+          .then(res => {
+            if (
+              res.data &&
+              res.data.resultMessage === "000000" &&
+              res.data.result
+            ) {
+              this.data= res.data.result;
+            } else if (res.data && res.data.resultCode !== "000000") {
+              this.data ='';
+              this.$Message.danger("服务调用出错！");
+            } else if (
+              res.data &&
+              res.data.resultCode === "000000" &&
+              !res.data.result
+            ) {
+              this.data = '';
+              this.$Message.danger("无对应的数据！");
+            }
+          });
+           }else{
+                this.$Message.danger("手机号格式不正确，请重新输入");
+           }
+       })
       },
       loginNavToSecond() {
         this.$emit('loginNav', 2)
@@ -89,17 +121,15 @@ import services from '../../api/services'
                     this.$store.dispatch('user/access_token', access_token)
 	    	          // // let CryptoJS_password = this.$publicFunc.encrypt(this.loginForm.password)
 	    	          let formData = {
-	    	            username: 'zlrzlr',
-	    	            password: '123123',
-	    	            authority: '12123'
+	    	            username: this.loginForm.username,
+	    	            password: this.loginForm.password,
+	    	            authority: this.data
 	    	          }
 	    	          this.$http.post(services.login.checkToken, formData).then(res => {
 	    	            if (res && res.data) {
 	    	              if (res.data) {
-	    	             
-	    	               if(res.data.resultMessage === '000000'){
-	    	                    this.$router.push('pages/userGuide')
-	    	                 
+	    	               if(res.data.resultCode === '000000'){
+	    	                    this.$router.push({name:'userGuide'}) 
 	    	               }
 	    	            
 	    	              }
@@ -150,4 +180,8 @@ import services from '../../api/services'
       }
     }
   }
+  .ivu-col-span-5 {
+    display: block;
+    width: 34.833333%;
+}
 </style>

@@ -14,5 +14,11 @@ export default {
   },
   login: {
     checkToken: 'vhr/api/admin/v1.0/goLogin'
+  },
+  getValidation: {
+    getValidation:'vhr/api/admin/v1.0/getValidate', // 获取验证码
+  },
+  emplyeeInfo:{
+    emplyeeInfo:'vhr/api/employee/v1.0/employee'//获取员工信息
   }
 }

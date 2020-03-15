@@ -1,35 +1,21 @@
 [
-  {"menu_id": 1, "menu_name": "调账", "menu_icon": "", "menu_url": "",
+  {"menu_id": 1, "menu_name": "员工资料", "menu_icon": "", "menu_url": "",
     "children_list": [
-      {"menu_id": 1.1, "menu_name": "调账报表", "menu_url": "userGuide", "parent_menu_id": 1},
-      {"menu_id": 1.2, "menu_name": "错单报表", "menu_url": "wrongReport", "parent_menu_id": 1},
-      {"menu_id": 1.3, "menu_name": "统计报表", "menu_url": "statisticalReports", "parent_menu_id": 1},
-      {"menu_id": 1.4, "menu_name": "校对配置", "menu_url": "", "parent_menu_id": 1,
-        "children_list": [
-          {"menu_id": 1.41, "menu_name": "调账配置", "menu_url": "checkConfig", "parent_menu_id": 1.4},
-          {"menu_id": 1.42, "menu_name": "错单配置", "menu_url": "wrongReportConfig", "parent_menu_id": 1.4},
-          {"menu_id": 1.43, "menu_name": "统计配置", "menu_url": "statiticalConfig", "parent_menu_id": 1.4}
-        ]}
+      {"menu_id": 1.1, "menu_name": "基本资料", "menu_url": "userGuide", "parent_menu_id": 1}
+    
+      
     ]},
-    {"menu_id": 2, "menu_name": "账务处理", "menu_icon": "", "menu_url": "",
+    {"menu_id": 2, "menu_name": "薪资管理", "menu_icon": "", "menu_url": "",
       "children_list": [
-        {"menu_id": 1.1, "menu_name": "结算周期", "menu_url": "settleCycle", "parent_menu_id": 2},
-        {"menu_id": 1.3, "menu_name": "结算出账", "menu_url": "expend", "parent_menu_id": 2},
-        {"menu_id": 1.4, "menu_name": "出账信息", "menu_url": "expendDetail", "parent_menu_id": 2},
-        {"menu_id": 1.4, "menu_name": "出账回退", "menu_url": "expendBack", "parent_menu_id": 2},
-        {"menu_id": 1.4, "menu_name": "出账确认", "menu_url": "expendConfirm", "parent_menu_id": 2},
-        {"menu_id": 1.4, "menu_name": "外挂程序", "menu_url": "plugins", "parent_menu_id": 2}
+        {"menu_id": 1.1, "menu_name": "员工工资", "menu_url": "settleCycle", "parent_menu_id": 2},
+        {"menu_id": 1.3, "menu_name": "工资账套", "menu_url": "expend", "parent_menu_id": 2}
       ]},
-      {"menu_id": 3, "menu_name": "报表结算", "menu_icon": "", "menu_url": "",
+      {"menu_id": 3, "menu_name": "综合信息", "menu_icon": "", "menu_url": "",
         "children_list": [
-          {"menu_id": 1.1, "menu_name": "结算报表", "menu_url": "settleReport", "parent_menu_id": 3},
-          {"menu_id": 1.2, "menu_name": "发票明细", "menu_url": "invoicePage", "parent_menu_id": 3},
-          {"menu_id": 1.3, "menu_name": "总分校对", "menu_url": "total2detailCompare", "parent_menu_id": 3},
-          {"menu_id": 1.4, "menu_name": "在线excel Demo", "menu_url": "excelDemo", "parent_menu_id": 3}
+          {"menu_id": 1.1, "menu_name": "统计信息", "menu_url": "settleReport", "parent_menu_id": 3}
         ]},
-        {"menu_id": 4, "menu_name": "报表发送", "menu_icon": "", "menu_url": "",
+        {"menu_id": 4, "menu_name": "系统管理", "menu_icon": "", "menu_url": "",
           "children_list": [
-            {"menu_id": 1.1, "menu_name": "分表拆分", "menu_url": "divideReport", "parent_menu_id": 3},
-            {"menu_id": 1.2, "menu_name": "上传报表", "menu_url": "uploadReport", "parent_menu_id": 3}
+            {"menu_id": 1.1, "menu_name": "系统管理", "menu_url": "divideReport", "parent_menu_id": 3}
           ]}
 ]

@@ -12,6 +12,6 @@ export function export2Excel(columns, list) {
             filterVal.push(item.key)
         })
         const data = list.map(v => filterVal.map(j => v[j]))
-        export_json_to_excel(tHeader, data, '校对结果列表')
+        export_json_to_excel(tHeader, data, '员工信息列表')
     })
 }

@@ -34,7 +34,9 @@ class HttpRequest {
   }
   interceptors (instance, url) {
     // 请求拦截
+    console.dir(url)
     instance.interceptors.request.use(config => {
+      console.dir("/////")
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
@@ -46,6 +48,7 @@ class HttpRequest {
     })
     // 响应拦截
     instance.interceptors.response.use(res => {
+      console.dir("/////123")
       this.destroy(url)
       const { data, status } = res
       return { data, status }
@@ -66,6 +69,7 @@ class HttpRequest {
   }
   request (options) {
     const instance = axios.create()
+    console.dir("/////444")
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)
     return instance(options)
