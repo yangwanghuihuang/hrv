@@ -1,16 +1,16 @@
 <template>
-  <div class="userGuide">
+  <div class="salaryManage">
     <div class="search">
        <Row>
-        <Col span="18"> <Input search enter-button v-model="name" @on-enter="selectByName(name)" @on-click="selectByName(name)" placeholder="按照姓名查询员工信息，记得回车哦" /></Col>
+        <!-- <Col span="18"> <Input search enter-button placeholder="按照姓名查询员工信息，记得回车哦" /></Col> -->
         <Col span="3"> 
-            <Button type="primary"  @click="insertEmployee()">添加员工</Button>
+            <Button type="primary"  @click="insertEmployee()">添加账套</Button>
      
         </Col>
-         <Col span="3"> 
+         <!-- <Col span="3"> 
          
             <Button type="primary"  @click="export_excel">导出excel</Button>
-        </Col>
+        </Col> -->
        </Row>     
     </div>
     <div class="main">
@@ -19,7 +19,7 @@
         <Page class="pageStyle" simple show-sizer show-total :pageHeight="pageHeight" :total="dataCount" :page-size="pageSize"  @on-page-size-change="pageSizeChange"  @on-change="changepage"></Page>
       </div>
 
-      <Table :height="tableHeight"  style="width:100%"  border ref="selection" :columns="columns4" :data="data1">
+      <Table :height="tableHeight"   border ref="selection" :columns="columns4" :data="data1">
        
       </Table>
     </div>
@@ -27,28 +27,27 @@
     <div class="footer">
 
     </div>
-    <add-emplyee v-if="ifShow" @save="save"></add-emplyee>
-    <edit-employee v-if="ifExist" :infoId="infoId" @edit="edit"></edit-employee>
+    <!-- <add-emplyee v-if="ifShow" @save="save"></add-emplyee>
+    <edit-employee v-if="ifExist" :infoId="infoId" @edit="edit"></edit-employee> -->
   </div>
 </template>
 
 <script>
 import services from '../../../api/services'
-import { export2Excel } from '../../../components/common/js/util'
-import addEmployee from './saveModal'
-import editEmployee from './editModal'
+// import { export2Excel } from '../../../components/common/js/util'
+// import addEmployee from './saveModal'
+// import editEmployee from './editModal'
   export default {
-    components: {
-       'add-emplyee': addEmployee,
-       'edit-employee':editEmployee
-    },
+    // components: {
+    //    'add-emplyee': addEmployee,
+    //    'edit-employee':editEmployee
+    // },
     data () {
       return {
         ifShow:false,
-        name:'',
         pageIndex: 1,
         totalPage: 0,
-        infoId:0,
+        infoId:'',
         tableHeight: 0,
         pageHeight: 0,
         settleCycle: '2010',
@@ -57,51 +56,105 @@ import editEmployee from './editModal'
         // 初始化信息总条数
        dataCount: 0,
         // 每页显示多少条
-       pageSize: 10,
+       pageSize: 5,
         columns4: [
          {
           type: 'selection',
           width: 60,
           align: 'center',
         },
-         {
-          title: '编号',
-          key: 'id'
+        {
+          title: '账套名称',
+          key: 'name',
+          width:180,
+          resizable :true
         },
         {
-          title: '姓名',
-          key: 'name'
+          title: '基本工资',
+          key: 'basicSalary',
+          width:100,
+          resizable :true
         },
         {
-          title: '工号',
-          key: 'workid'
+          title: '交通补助',
+          key: 'trafficSalary',
+          width:100,
+          resizable :true
         },
         {
-          title: '性别',
-          key: 'gender'
+          title: '午餐补助',
+          key: 'lunchSalary',
+          width:100,
+          resizable :true
         },
         {
-          title: '出生日期',
-          key: 'birthday'
+          title: '奖金',
+          key: 'bonus',
+          width:180,
+          resizable :true
         },
         {
-          title: '身份证号码',
-          key: 'idcard'
+          title: '启用时间',
+          key: 'createDate',
+          width:180,
+          resizable :true
         },
         {
-          title: '民族',
-          key: 'nationDesc'
+          title: '养老金',
+           align: 'center',
+           children: [
+                 {
+                    title: '比率',
+                    key: 'pensionPer',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'pensionBase',
+                    align: 'center',
+                    width: 100,
+                 },
+           ]
         },
         {
-          title: '籍贯',
-          key: 'nativeplace'
+          title: '医疗保险',
+          align:'center',
+          children: [
+                 {
+                    title: '比率',
+                    key: 'medicalPer',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'medicalBase',
+                    align: 'center',
+                    width: 100,
+                 },
+           ]
         },
         {
-          title: '在职状态',
-          key: 'workstate'
+          title: '公积金',
+          align:'center',
+          children: [
+                 {
+                    title: '比率',
+                    key: 'accumulationFundPer',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'accumulationFundBase',
+                    align: 'center',
+                    width: 100,
+                 },
+           ]
         },
        {
-                        title: 'Action',
+                        title: '操作',
                         key: 'action',
                         width: 150,
                         align: 'center',
@@ -136,7 +189,8 @@ import editEmployee from './editModal'
                         }
                     }
         ],
-        data1: [],
+        data1: [
+        ],
         dataTotal: []
          // editIndex: -1,  // 当前聚焦的输入框的行数
         // editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
@@ -149,42 +203,28 @@ import editEmployee from './editModal'
     },
     mounted() {
       this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
+      let tmp={
+          pageNum:1,
+          pageSize:10
+      }
       this.$http
-      .post(services.emplyeeInfo.emplyeeInfo)
+      .post(services.salaryInfo.salaryInfo)
       .then(
         res => {
-          // if (res.data && res) {
-          //    this.dataTotal = res.data
-          //    this.dataCount = this.dataTotal.result.result.length
-          //    this.totalPage = Math.ceil(this.dataTotal.result.result.length / this.pageSize)
-              
-          //    if (this.dataTotal.result.result.length < this.pageSize) {
-          //           this.data1 = this.dataTotal.result.result
-                   
-          //       } else {
-          //           this.data1 = this.dataTotal.result.result.slice(0, this.pageSize)
-          //       }
-
-          //   // 进行跳转成功页面
-          //   // 成功后调用服务
-          //   // 给父组件传递flag标志，1为关闭当前，打开success。
-
-          // } 
-          if(res.data && res){
-             console.dir(res.data.result)
-              this.dataTotal = res.data
-             this.dataCount = this.dataTotal.result.length
-             this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-              
-             if (this.dataTotal.result.length < this.pageSize) {
-                    this.data1 = this.dataTotal.result
-                   
+          if (res.data && res) {
+             this.dataTotal = res.data
+             this.dataCount = this.dataTotal.length
+               this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
+             if (this.dataTotal.length < this.pageSize) {
+                    this.data1 = this.dataTotal
                 } else {
-                    this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+                    this.data1 = this.dataTotal.slice(0, this.pageSize)
                 }
-          }
-          
-          else if (res.data && res.data.resultCode !== '000000') {
+
+            // 进行跳转成功页面
+            // 成功后调用服务
+            // 给父组件传递flag标志，1为关闭当前，打开success。
+          } else if (res.data && res.data.resultCode !== '000000') {
             this.$dialog.alert({ message: '服务器调用出错！' })
           }
         },
@@ -195,38 +235,13 @@ import editEmployee from './editModal'
     },
     methods: {
       show (index) {
-          this.infoId=this.data1[index].id
-          console.dir(this.infoId)
+          this.infoId=this.data1[index].workId
           this.ifExist = true
-                // this.$Modal.info({
-                //     title: '员工信息',
-                  
-                //     content: `Name：${this.data1[index].address}<br>Age：${this.data1[index].workId}<br>Address：${this.data1[index].address}`
-                // })
             },
       remove (index) {
-            this.infoId=this.data1[index].id
-            let tmp={
-              id:this.infoId
-            }
-               this.$http
-                .post(services.deleteById.deleteById,tmp)
-                .then(
-                  res => {
-                    if (res.data && res && res.data.result) {
-                      console.dir(res.data)
-                         this.data1.splice(index, 1);
-                          this.dataCount--;
-                          this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-                    } else if (res.data && res.data.resultCode !== '000000') {
-                      this.$dialog.alert({ message: '服务器调用出错！' })
-                    }
-                  },
-                  res => {
-                    // error callback
-                  }
-                )
-             
+                this.data1.splice(index, 1);
+                this.dataCount--;
+                this.totalPage = Math.ceil(this.dataCount / this.pageSize)
             },
       insertEmployee(){
           this.ifShow = true
@@ -235,7 +250,6 @@ import editEmployee from './editModal'
       save(value){
           if(value){
             this.ifShow=false
-            this.mounted
           }
       },
       edit(value){
@@ -257,7 +271,7 @@ import editEmployee from './editModal'
                  this.pageIndex = index
                console.dir(_start)
                console.dir(_end)
-                this.data1 = this.dataTotal.result.slice(_start, _end)
+                this.data1 = this.dataTotal.slice(_start, _end)
                 console.dir(this.data1)
       },
        pageSizeChange(value) {
@@ -266,36 +280,6 @@ import editEmployee from './editModal'
       },
           export_excel() {
               export2Excel(this.columns4, this.data1)
-          },
-          selectByName(value){
-            console.dir(value)
-            let tmp={
-              name:value
-            }
-               this.$http
-                .post(services.emplyeeByName.emplyeeByName,tmp)
-                .then(
-                  res => {
-                    if (res.data && res && res.data.result) {
-                      console.dir(res.data)
-                       this.dataTotal = res.data
-                      this.dataCount = this.dataTotal.result.result.length
-                      this.totalPage = Math.ceil(this.dataTotal.result.result.length / this.pageSize)
-                        
-                      if (this.dataTotal.result.result.length < this.pageSize) {
-                              this.data1 = this.dataTotal.result.result
-                            
-                          } else {
-                              this.data1 = this.dataTotal.result.result.slice(0, this.pageSize)
-                          }
-                    } else if (res.data && res.data.resultCode !== '000000') {
-                      this.$dialog.alert({ message: '服务器调用出错！' })
-                    }
-                  },
-                  res => {
-                    // error callback
-                  }
-                )
           }
 
     }
@@ -303,21 +287,14 @@ import editEmployee from './editModal'
 </script>
 
 <style lang="less" scope>
-  .userGuide{
+  .salaryManage{
     height: 100%;
     background-color: #fff;
     .search{
-          height: 9%;
+          height: 15%;
           padding-left: 10px;
           text-align: left;
           margin:2px;
-         .btnStyle{
-            height:36%;
-         }
-         .ivu-col-span-3 {
-            padding-left: 57px!important;
-        }
-       
           .formStyle{
               padding-top: 15px;
               height: 60%;
@@ -335,7 +312,7 @@ import editEmployee from './editModal'
         }
         .textStyle{
           width: auto;
-          margin-left: 922px;
+          margin-left: 959px;
           font-size: 14px;
           height: 32px;
           line-height: 29px;

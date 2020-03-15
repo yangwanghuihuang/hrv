@@ -14,7 +14,7 @@
                         <Input v-model="formValidate.name" placeholder="default size" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="性别：">
-                        <RadioGroup v-model="formValidate.sex">
+                        <RadioGroup v-model="formValidate.gender">
                             <Radio label="男"></Radio>
                             <Radio label="女"></Radio>
                         </RadioGroup>
@@ -23,13 +23,13 @@
                         <DatePicker type="date" v-model="formValidate.birthday" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="籍贯：">
-                    <Input v-model="formValidate.nativePlace" placeholder="河北石家庄" style="width: 200px"/>
+                    <Input v-model="formValidate.nationid" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="手机号：">
                         <Input v-model="formValidate.phone" placeholder="default size" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="工号：">
-                        <Input v-model="formValidate.workID" disabled placeholder="89785" style="width: 200px"/>
+                        <Input v-model="formValidate.workid" disabled placeholder="89785" style="width: 200px"/>
                     </FormItem>
                     </Col>
                     <Col span="12">
@@ -74,11 +74,11 @@ export default {
             modal_loading: false,
             formValidate: {
                 name:'',
-                nativePlace:'',
+                nationid:'',
                 birthday:'',
-                sex:'',
+                gender:'',
                 phone:'',
-                workID:'',
+                workid:'',
                 tiptopDegree: '',
                 workAge:'',
                 daterange:'',
@@ -95,21 +95,12 @@ export default {
             //保存
             if (value === '0') {
                 this.$emit('save', '0')
-                alert("llll")
                  this.$http
-                .post(services.emplyeeInfo.emplyeeInfo,this.formValidate)
+                .post(services.addEmplyee.addEmplyee,this.formValidate)
                 .then(
                     res => {
-                        alert("456")
                     if (res.data && res) {
-                        this.dataTotal = res.data
-                        this.dataCount = this.dataTotal.length
-                        this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-                        if (this.dataTotal.length < this.pageSize) {
-                                this.data1 = this.dataTotal
-                            } else {
-                                this.data1 = this.dataTotal.slice(0, this.pageSize)
-                            }
+                        console.dir(res.data)
 
                         // 进行跳转成功页面
                         // 成功后调用服务

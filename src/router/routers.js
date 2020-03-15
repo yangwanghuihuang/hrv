@@ -49,9 +49,17 @@ export default [
         path: 'userGuide',
         name: 'userGuide',
         meta: {
-          title: '调账报表'
+          title: '员工信息'
         },
         component: () => import('@/view/single-page/userGuide/userGuide.vue')
+      },
+      {
+        path: 'salaryManage',
+        name: 'salaryManage',
+        meta: {
+          title: '工资账套'
+        },
+        component: () => import('@/view/single-page/acountDeal/salaryManage.vue')
       },
       {
         path: 'wrongReport',

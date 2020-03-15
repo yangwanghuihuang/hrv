@@ -8,7 +8,7 @@
     {"menu_id": 2, "menu_name": "薪资管理", "menu_icon": "", "menu_url": "",
       "children_list": [
         {"menu_id": 1.1, "menu_name": "员工工资", "menu_url": "settleCycle", "parent_menu_id": 2},
-        {"menu_id": 1.3, "menu_name": "工资账套", "menu_url": "expend", "parent_menu_id": 2}
+        {"menu_id": 1.3, "menu_name": "工资账套", "menu_url": "salaryManage", "parent_menu_id": 2}
       ]},
       {"menu_id": 3, "menu_name": "综合信息", "menu_icon": "", "menu_url": "",
         "children_list": [

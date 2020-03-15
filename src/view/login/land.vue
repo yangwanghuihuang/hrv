@@ -127,6 +127,7 @@ import services from '../../api/services'
 	    	          }
 	    	          this.$http.post(services.login.checkToken, formData).then(res => {
 	    	            if (res && res.data) {
+                      console.dir(res.data.result)
 	    	              if (res.data) {
 	    	               if(res.data.resultCode === '000000'){
 	    	                    this.$router.push({name:'userGuide'}) 

@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
   } else if (!access_token && to.name !== 'login') {
     next('login')
   } else if (access_token && to.name === 'login') {
-    next('/pages/userGuide')
+    next('/userGuide')
   } else {
     if (access_token && to.name !== 'login') {
       next()
