@@ -103,14 +103,14 @@ export default {
                 gender:'',
                 phone:'',
                 workid:'',
-                tiptopdegree: '',
+                tiptopdegree: '1',
                 workage:'',
                 daterange:'',
                 conversiontime:'',
                 begindate:'',
                 posid:'',
                 departmentid:'',
-                workstate:''
+                workstate:'1'
                 },
         }
     },
