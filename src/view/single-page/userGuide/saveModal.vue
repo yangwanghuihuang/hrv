@@ -7,7 +7,7 @@
             <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
         </p>
         <div style="text-align:left">
-             <Form  ref="formValidate" label-position="right" :label-width="100">
+              <Form  ref="formValidate" label-position="right" :label-width="100">
                  <Row>
                     <Col span="12">
                      <FormItem label="姓名：">
@@ -20,44 +20,66 @@
                         </RadioGroup>
                     </FormItem>
                     <FormItem label="出生日期：">
+                       
                         <DatePicker type="date" v-model="formValidate.birthday" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="籍贯：">
-                    <Input v-model="formValidate.nationid" placeholder="河北石家庄" style="width: 200px"/>
+                    <Input v-model="formValidate.nativeplace" placeholder="河北石家庄" style="width: 200px"/>
+                    </FormItem>
+                    <FormItem label="民族：">
+                    <Input v-model="formValidate.nationDesc" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="手机号：">
                         <Input v-model="formValidate.phone" placeholder="default size" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="工号：">
-                        <Input v-model="formValidate.workid" disabled placeholder="89785" style="width: 200px"/>
+                        <Input v-model="formValidate.workid"  placeholder="89785" style="width: 200px"/>
                     </FormItem>
                     </Col>
                     <Col span="12">
                       <FormItem label="学历：" style="width: 200px">
-                        <Select v-model="formValidate.tiptopDegree" placeholder="请选择--">
-                            <Option value="shenzhen">研究生</Option>
-                            <Option value="本科">本科</Option>
-                            <Option value="大专">大专</Option>
+                        <Select v-model="formValidate.tiptopdegree" placeholder="请选择" >
+                            <Option value="1" selected>博士</Option>
+                             <Option value="2">硕士</Option>
+                            <Option value="3">本科</Option>
+                            <Option value="4">大专</Option>
+                             <Option value="5">高中</Option>
+                            <Option value="6">初中</Option>
+                             <Option value="7">小学</Option>
+                              <Option value="8">小学</Option>
                         
                         </Select>
                     </FormItem>
                     <FormItem label="工龄：">
-                        <Input v-model="formValidate.workAge"  placeholder="3年" style="width: 200px"/>
+                        <Input v-model="formValidate.workage"  placeholder="3年" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="入职日期：">
-                        <DatePicker type="date" v-model="formValidate.beginDate" placeholder="Select date" style="width: 200px"></DatePicker>
+                        <DatePicker type="date" v-model="formValidate.begindate" placeholder="Select date  必填写" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="转正日期：">
-                        <DatePicker type="date" v-model="formValidate.conversionTime" placeholder="Select date" style="width: 200px"></DatePicker>
+                        <DatePicker type="date" v-model="formValidate.conversiontime" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="合同起始日期：">
-                        <DatePicker v-model="formValidate.daterange" type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+                    <FormItem label="部门：">
+                        <!-- <Select v-model="selectModal" style="width:200px">
+                            <Option v-for="item in departmentList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select> -->
+                         <Input v-model="formValidate.departmentid"  placeholder="30" style="width: 200px"/>
+
+                    </FormItem>
+                    <FormItem label="职位：">
+                         <Input v-model="formValidate.posid"  placeholder="30" style="width: 200px"/>
+                    </FormItem>
+                    <FormItem label="在职状态：">
+                        <Select v-model="formValidate.workstate" placeholder="请选择--">
+                            <Option value="1" selected>在职</Option>
+                             <Option value="2">离职</Option>
+
+                        </Select>
+                      
                     </FormItem>
                     </Col>
                 </Row>   
-                 <!-- <FormItem label="合同终止日期：">
-                     <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
-                </FormItem> -->
+              
             </Form>
         </div>
         <div slot="footer">
@@ -72,20 +94,35 @@ export default {
         return {
             modal2: true,
             modal_loading: false,
+            selectModal:'',
             formValidate: {
-                name:'',
-                nationid:'',
+                  name:'',
+                nativeplace:'',
+                nationDesc:'',
                 birthday:'',
                 gender:'',
                 phone:'',
                 workid:'',
-                tiptopDegree: '',
-                workAge:'',
+                tiptopdegree: '',
+                workage:'',
                 daterange:'',
-                conversionTime:'',
-                beginDate:'',
+                conversiontime:'',
+                begindate:'',
+                posid:'',
+                departmentid:'',
+                workstate:''
                 },
         }
+    },
+    mounted(){
+         this.$store.dispatch('depart/departOption');
+        // this.$store.commit('setDepartOption');
+    },
+    computed:{
+      departmentList() {
+          //映射getter的数据到组件中，可以直接使用
+            return this.$store.getters['depart/getDepartOption'] || []
+        },
     },
     methods: {
         del (value) {
@@ -114,10 +151,10 @@ export default {
                     }
                 )
             }
-            },
+        },
         cancel () {
               this.$emit('save', '1')
-            }
+        },  
     }
 }
 </script>

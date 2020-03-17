@@ -1,6 +1,6 @@
 <template>
   <div class="settle">
-    <div class="search">
+    <!-- <div class="search">
        <div class="btnStyle">
          <Button type="primary" @click="handleSelectAll('4')">查询</Button>
         <Button type="primary"  @click="handleSelectAll('2')">新增</Button>
@@ -29,7 +29,7 @@
       <model-component v-if="ifShow" @success="success"></model-component>
       <save-confirm v-if="ifExist" @save="save"></save-confirm>
       <show-confirm v-if="ifConfirm" @show="show"></show-confirm>
-      <update-confirm v-if="ifUpdate" @update="update"></update-confirm>
+      <update-confirm v-if="ifUpdate" @update="update"></update-confirm> -->
       <!-- <Modal
         v-model="modal1"
         title="10.255.84.100:8081 显示"
@@ -37,7 +37,7 @@
         @on-cancel="cancel">
        <p>确定要删除所有文件吗？</p>
     </Modal> -->
-    </div>
+    <!-- </div> -->
     <div class="main">
         <div class="main_page">
             <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
@@ -75,35 +75,155 @@ export default {
         pageIndex: 1,
         totalPage: 0,
         columns4: [
-          {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-          },
-          {
-            title: '结算周期名称',
-            key: 'settleName'
-          },
-          {
-            title: '结算周期类别',
-            key: 'settleKinds'
-          },
-          {
-            title: '开始日期',
-            key: 'beginTime'
-          },
            {
-            title: '结束日期',
-            key: 'endTime'
-          },
+          type: 'selection',
+          width: 60,
+          align: 'center',
+        },
+         {
+          title: '编号',
+          key: 'id',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '姓名',
+          key: 'name',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '工号',
+          key: 'workid',
+           width:100,
+          resizable :true
+        },
           {
-            title: '创建时间',
-            key: 'createTime'
-          },
+          title: '手机号',
+          key: 'phone',
+           width:180,
+          resizable :true
+        },
+           {
+          title: '部门',
+          key: 'departName',
+           width:100,
+          resizable :true
+        },
           {
-            title: '修改时间',
-            key: 'updateTime'
-          }
+          title: '账套名称',
+          key: 'name',
+          width:180,
+          resizable :true
+        },
+        {
+          title: '基本工资',
+          key: 'basicsalary',
+          width:100,
+          resizable :true
+        },
+        {
+          title: '交通补助',
+          key: 'trafficsalary',
+          width:100,
+          resizable :true
+        },
+        {
+          title: '午餐补助',
+          key: 'lunchsalary',
+          width:100,
+          resizable :true
+        },
+        {
+          title: '奖金',
+          key: 'bonus',
+          width:100,
+          resizable :true
+        },
+        {
+          title: '启用时间',
+          key: 'createDateDesc',
+          width:180,
+          resizable :true
+        },
+        {
+          title: '养老金',
+           align: 'center',
+           children: [
+                 {
+                    title: '比率',
+                    key: 'pensionper',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'pensionbase',
+                    align: 'center',
+                    width: 100,
+                 },
+           ]
+        },
+        {
+          title: '医疗保险',
+          align:'center',
+          children: [
+                 {
+                    title: '比率',
+                    key: 'medicalper',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'medicalbase',
+                    align: 'center',
+                    width: 100,
+                 },
+           ]
+        },
+        {
+          title: '公积金',
+          align:'center',
+          children: [
+                 {
+                    title: '比率',
+                    key: 'accumulationfundper',
+                    align: 'center',
+                    width: 100,
+                 },
+                {
+                    title: '基数',
+                    key: 'accumulationfundbase',
+                    align: 'center',
+                    width: 100,
+                 }
+                  ]},
+                  {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, '修改账套'),
+                            ]);
+                        }
+                    }
+        
         ],
         data1: [],
         dataTotal: []
@@ -112,19 +232,21 @@ export default {
       mounted() {
       this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
        this.$http
-      .post(services.cycleData.cycleData)
+      .post(services.empSalary.empSalary)
       .then(
         res => {
           if (res.data && res) {
-             this.dataTotal = res.data
-             this.dataCount = this.dataTotal.length
-              console.dir(this.dataTotal.length)
-              console.dir(this.pageSize)
-               this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-             if (this.dataTotal.length < this.pageSize) {
-                    this.data1 = this.dataTotal
+            
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+             this.dataCount = this.dataTotal.result.length
+             this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+              
+             if (this.dataTotal.result.length < this.pageSize) {
+                    this.data1 = this.dataTotal.result
+                   
                 } else {
-                    this.data1 = this.dataTotal.slice(0, this.pageSize)
+                    this.data1 = this.dataTotal.result.slice(0, this.pageSize)
                 }
 
             // 进行跳转成功页面

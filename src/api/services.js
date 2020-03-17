@@ -19,7 +19,7 @@ export default {
     getValidation:'/vhr/api/admin/v1.0/getValidate', // 获取验证码
   },
   emplyeeInfo:{
-    emplyeeInfo:'/vhr/api/employee/v1.0/allEmployee'//获取员工信息
+    emplyeeInfo:'/vhr/api/employee/v1.0/allEmployee0'//获取员工信息
   },
   emplyeeByworkId:{
     emplyeeByworkId:'/vhr/api/employee/v1.0/employeeById'//通过条件id获取员工信息
@@ -31,10 +31,20 @@ export default {
     addEmplyee:'/vhr/api/employee/v1.0/add'//添加员工信息
   },
   salaryInfo:{
-    salaryInfo:'/monitor/monitorSalary'//获取薪资账套
+    salaryInfo:'/vhr/api/salary/v1.0/salaryDept'//获取薪资账套
   },
   emplyeeByName:{
     emplyeeByName:'/vhr/api/employee/v1.0/employee'//通过条件id获取员工信息
   },
+  updateEmp:{
+    updateEmp:'/vhr/api/employee/v1.0/update'  //修改员工信息
+  },
+  param:{
+    getDepart:'/vhr/api/employee/v1.0/getDepart'
+  },
 
+
+  empSalary:{
+    empSalary:'/vhr/api/empsalary/v1.0/salaryDept'//获取员工工资账套
+  }
 }

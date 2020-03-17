@@ -2,15 +2,10 @@
   <div class="salaryManage">
     <div class="search">
        <Row>
-        <!-- <Col span="18"> <Input search enter-button placeholder="按照姓名查询员工信息，记得回车哦" /></Col> -->
         <Col span="3"> 
             <Button type="primary"  @click="insertEmployee()">添加账套</Button>
      
         </Col>
-         <!-- <Col span="3"> 
-         
-            <Button type="primary"  @click="export_excel">导出excel</Button>
-        </Col> -->
        </Row>     
     </div>
     <div class="main">
@@ -71,19 +66,19 @@ import services from '../../../api/services'
         },
         {
           title: '基本工资',
-          key: 'basicSalary',
+          key: 'basicsalary',
           width:100,
           resizable :true
         },
         {
           title: '交通补助',
-          key: 'trafficSalary',
+          key: 'trafficsalary',
           width:100,
           resizable :true
         },
         {
           title: '午餐补助',
-          key: 'lunchSalary',
+          key: 'lunchsalary',
           width:100,
           resizable :true
         },
@@ -95,7 +90,7 @@ import services from '../../../api/services'
         },
         {
           title: '启用时间',
-          key: 'createDate',
+          key: 'createDateDesc',
           width:180,
           resizable :true
         },
@@ -105,13 +100,13 @@ import services from '../../../api/services'
            children: [
                  {
                     title: '比率',
-                    key: 'pensionPer',
+                    key: 'pensionper',
                     align: 'center',
                     width: 100,
                  },
                 {
                     title: '基数',
-                    key: 'pensionBase',
+                    key: 'pensionbase',
                     align: 'center',
                     width: 100,
                  },
@@ -123,13 +118,13 @@ import services from '../../../api/services'
           children: [
                  {
                     title: '比率',
-                    key: 'medicalPer',
+                    key: 'medicalper',
                     align: 'center',
                     width: 100,
                  },
                 {
                     title: '基数',
-                    key: 'medicalBase',
+                    key: 'medicalbase',
                     align: 'center',
                     width: 100,
                  },
@@ -141,13 +136,13 @@ import services from '../../../api/services'
           children: [
                  {
                     title: '比率',
-                    key: 'accumulationFundPer',
+                    key: 'accumulationfundper',
                     align: 'center',
                     width: 100,
                  },
                 {
                     title: '基数',
-                    key: 'accumulationFundBase',
+                    key: 'accumulationfundbase',
                     align: 'center',
                     width: 100,
                  },
@@ -212,18 +207,17 @@ import services from '../../../api/services'
       .then(
         res => {
           if (res.data && res) {
-             this.dataTotal = res.data
-             this.dataCount = this.dataTotal.length
-               this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-             if (this.dataTotal.length < this.pageSize) {
-                    this.data1 = this.dataTotal
+               console.dir(res.data.result)
+              this.dataTotal = res.data
+             this.dataCount = this.dataTotal.result.length
+             this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+              
+             if (this.dataTotal.result.length < this.pageSize) {
+                    this.data1 = this.dataTotal.result
+                   
                 } else {
-                    this.data1 = this.dataTotal.slice(0, this.pageSize)
+                    this.data1 = this.dataTotal.result.slice(0, this.pageSize)
                 }
-
-            // 进行跳转成功页面
-            // 成功后调用服务
-            // 给父组件传递flag标志，1为关闭当前，打开success。
           } else if (res.data && res.data.resultCode !== '000000') {
             this.$dialog.alert({ message: '服务器调用出错！' })
           }

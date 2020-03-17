@@ -102,12 +102,12 @@ export default [
         component: () => import('@/view/single-page/userGuide/statiticalConfig.vue')
       },
       {
-        path: 'settleCycle',
-        name: 'settleCycle',
+        path: 'employSalary',
+        name: 'employSalary',
         meta: {
           title: '结算周期'
         },
-        component: () => import('@/view/single-page/acountDeal/settleCycle.vue')
+        component: () => import('@/view/single-page/acountDeal/employSalary.vue')
       },
       {
         path: 'expend',

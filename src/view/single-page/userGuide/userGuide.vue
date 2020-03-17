@@ -66,39 +66,93 @@ import editEmployee from './editModal'
         },
          {
           title: '编号',
-          key: 'id'
+          key: 'id',
+           width:100,
+          resizable :true
         },
         {
           title: '姓名',
-          key: 'name'
+          key: 'name',
+           width:100,
+          resizable :true
         },
         {
           title: '工号',
-          key: 'workid'
+          key: 'workid',
+           width:100,
+          resizable :true
         },
         {
           title: '性别',
-          key: 'gender'
+          key: 'gender',
+           width:100,
+          resizable :true
         },
         {
           title: '出生日期',
-          key: 'birthday'
-        },
-        {
-          title: '身份证号码',
-          key: 'idcard'
-        },
-        {
-          title: '民族',
-          key: 'nationDesc'
+          key: 'birthdayDesc',
+           width:180,
+          resizable :true
         },
         {
           title: '籍贯',
-          key: 'nativeplace'
+          key: 'nativeplace',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '民族',
+          key: 'nationDesc',
+           width:100,
+          resizable :true
         },
         {
           title: '在职状态',
-          key: 'workstate'
+          key: 'workstate',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '手机号',
+          key: 'phone',
+           width:180,
+          resizable :true
+        },
+        {
+          title: '学历',
+          key: 'tiptopdegree',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '工龄',
+          key: 'workageDesc',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '转正日期',
+          key: 'conversiontimeDesc',
+           width:180,
+          resizable :true
+        },  
+        {
+          title: '入职日期',
+          key: 'begindateDesc',
+           width:180,
+          resizable :true
+        },
+        {
+          title: '职位',
+          key: 'posName',
+           width:100,
+          resizable :true
+        },
+        {
+          title: '部门',
+          key: 'departName',
+           width:100,
+          resizable :true
         },
        {
                         title: 'Action',
@@ -138,11 +192,6 @@ import editEmployee from './editModal'
         ],
         data1: [],
         dataTotal: []
-         // editIndex: -1,  // 当前聚焦的输入框的行数
-        // editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
-        // editAge: '',  // 第二列输入框
-        // editBirthday: '',  // 第三列输入框
-        // editAddress: '',  // 第四列输入框
       }
     },
     created() {
@@ -218,6 +267,7 @@ import editEmployee from './editModal'
                          this.data1.splice(index, 1);
                           this.dataCount--;
                           this.totalPage = Math.ceil(this.dataCount / this.pageSize)
+                          location.reload()
                     } else if (res.data && res.data.resultCode !== '000000') {
                       this.$dialog.alert({ message: '服务器调用出错！' })
                     }
@@ -235,12 +285,13 @@ import editEmployee from './editModal'
       save(value){
           if(value){
             this.ifShow=false
-            this.mounted
+            // location.reload()
           }
       },
       edit(value){
            if(value){
             this.ifExist=false
+            // location.reload()
           }
       },
       goCycleData() {
@@ -268,7 +319,6 @@ import editEmployee from './editModal'
               export2Excel(this.columns4, this.data1)
           },
           selectByName(value){
-            console.dir(value)
             let tmp={
               name:value
             }
@@ -279,14 +329,14 @@ import editEmployee from './editModal'
                     if (res.data && res && res.data.result) {
                       console.dir(res.data)
                        this.dataTotal = res.data
-                      this.dataCount = this.dataTotal.result.result.length
-                      this.totalPage = Math.ceil(this.dataTotal.result.result.length / this.pageSize)
+                      this.dataCount = this.dataTotal.result.length
+                      this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
                         
-                      if (this.dataTotal.result.result.length < this.pageSize) {
-                              this.data1 = this.dataTotal.result.result
+                      if (this.dataTotal.result.length < this.pageSize) {
+                              this.data1 = this.dataTotal.result
                             
                           } else {
-                              this.data1 = this.dataTotal.result.result.slice(0, this.pageSize)
+                              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
                           }
                     } else if (res.data && res.data.resultCode !== '000000') {
                       this.$dialog.alert({ message: '服务器调用出错！' })

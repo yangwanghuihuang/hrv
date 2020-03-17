@@ -7,7 +7,7 @@
             <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
         </p>
         <div style="text-align:left">
-             <Form  ref="formValidate" label-position="right" :label-width="100">
+              <Form  ref="formValidate" label-position="right" :label-width="100">
                  <Row>
                     <Col span="12">
                      <FormItem label="姓名：">
@@ -23,7 +23,10 @@
                         <DatePicker type="date" v-model="formValidate.birthday" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="籍贯：">
-                    <Input v-model="formValidate.address" placeholder="河北石家庄" style="width: 200px"/>
+                    <Input v-model="formValidate.nativeplace" placeholder="河北石家庄" style="width: 200px"/>
+                    </FormItem>
+                    <FormItem label="民族：">
+                    <Input v-model="formValidate.nationDesc" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="手机号：">
                         <Input v-model="formValidate.phone" placeholder="default size" style="width: 200px"/>
@@ -34,30 +37,35 @@
                     </Col>
                     <Col span="12">
                       <FormItem label="学历：" style="width: 200px">
-                        <Select v-model="formValidate.tiptopDegree" placeholder="请选择--">
-                            <Option value="shenzhen">研究生</Option>
+                        <Select v-model="formValidate.tiptopdegree" placeholder="请选择--">
+                            <Option value="高中">高中</Option>
                             <Option value="本科">本科</Option>
                             <Option value="大专">大专</Option>
+                               <Option value="硕士">硕士</Option>
+                            <Option value="研究生">研究生</Option>
+                              <Option value="博士">博士</Option>
+                            <Option value="初中">初中</Option>
                         
                         </Select>
                     </FormItem>
-                    <FormItem label="工龄：">
-                        <Input v-model="formValidate.workAge"  placeholder="3年" style="width: 200px"/>
-                    </FormItem>
+                    <!-- <FormItem label="工龄：">
+                        <Input v-model="formValidate.workage"  placeholder="3年" style="width: 200px"/>
+                    </FormItem> -->
                     <FormItem label="入职日期：">
-                        <DatePicker type="date" v-model="formValidate.beginDate" placeholder="Select date" style="width: 200px"></DatePicker>
+                        <DatePicker type="date" v-model="formValidate.begindate" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="转正日期：">
-                        <DatePicker type="date" v-model="formValidate.conversionTime" placeholder="Select date" style="width: 200px"></DatePicker>
+                        <DatePicker type="date" v-model="formValidate.conversiontime" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="合同起始日期：">
-                        <DatePicker v-model="formValidate.daterange" type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+                    <FormItem label="部门：">
+                        <Input v-model="formValidate.departmentid"  placeholder="3年" style="width: 200px"/>
+                    </FormItem>
+                    <FormItem label="职位：">
+                         <Input v-model="formValidate.posid"  placeholder="3年" style="width: 200px"/>
                     </FormItem>
                     </Col>
                 </Row>   
-                 <!-- <FormItem label="合同终止日期：">
-                     <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
-                </FormItem> -->
+              
             </Form>
         </div>
         <div slot="footer">
@@ -73,17 +81,20 @@ export default {
             modal2: true,
             modal_loading: false,
             formValidate: {
-                name:'',
-                address:'',
+                 name:'',
+                nativeplace:'',
+                nationDesc:'',
                 birthday:'',
                 gender:'',
                 phone:'',
                 workid:'',
-                tiptopDegree: '',
-                workAge:'',
+                tiptopdegree: '',
+                workage:'',
                 daterange:'',
-                conversionTime:'',
-                beginDate:'',
+                conversiontime:'',
+                begindate:'',
+                posid:'',
+                departmentid:''
                 },
         }
     },
@@ -107,6 +118,11 @@ export default {
           if (res.data && res && res.data.result) {
             console.dir(res.data)
             this.formValidate = res.data.result
+            console.dir(res.data.result.tiptopdegree)
+            if(res.data.result.tiptopdegree === '高中'){
+               this.formValidate.tiptopDegree = "高中"
+               console.dir(this.formValidate.tiptopDegree.value)
+            }
             //  this.dataTotal = res.data
             //  console.dir(this.dataTotal)
             //  this.dataCount = this.dataTotal.result.result.length
@@ -139,18 +155,12 @@ export default {
                 this.$emit('edit', '0')
                 alert("llll")
                  this.$http
-                .post(services.emplyeeInfo.emplyeeInfo,this.formValidate)
+                .post(services.updateEmp.updateEmp,this.formValidate)
                 .then(
                     res => {
+                         alert("llllmmm")
                     if (res.data && res) {
-                        this.dataTotal = res.data
-                        this.dataCount = this.dataTotal.length
-                        this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-                        if (this.dataTotal.length < this.pageSize) {
-                                this.data1 = this.dataTotal
-                            } else {
-                                this.data1 = this.dataTotal.slice(0, this.pageSize)
-                            }
+                       console.dir(res.data.result)
 
                         // 进行跳转成功页面
                         // 成功后调用服务
