@@ -199,6 +199,12 @@ export default {
                     width: 100,
                  }
                   ]},
+        {
+          title: '实际工资',
+          key: 'allsalary',
+          width:100,
+          resizable :true
+        },
                   {
                         title: '操作',
                         key: 'action',

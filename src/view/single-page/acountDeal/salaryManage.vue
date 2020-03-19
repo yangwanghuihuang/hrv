@@ -18,7 +18,8 @@
        
       </Table>
     </div>
-   
+   <edit-salary v-if="ifShow" :infoId="infoId" :infoName="infoName"  @edit="edit"></edit-salary>
+   <save-salary v-if="ifExist" @save="save"></save-salary>
     <div class="footer">
 
     </div>
@@ -29,20 +30,24 @@
 
 <script>
 import services from '../../../api/services'
+import editSalary from './editSalaryModal'
+import saveSalary from './saveModal'
 // import { export2Excel } from '../../../components/common/js/util'
 // import addEmployee from './saveModal'
 // import editEmployee from './editModal'
   export default {
-    // components: {
-    //    'add-emplyee': addEmployee,
-    //    'edit-employee':editEmployee
-    // },
+    components: {
+       'edit-salary': editSalary,
+        'save-salary':saveSalary
+    },
     data () {
       return {
         ifShow:false,
+        ifExist:false,
         pageIndex: 1,
         totalPage: 0,
-        infoId:'',
+        infoId:0,
+        infoName:'',
         tableHeight: 0,
         pageHeight: 0,
         settleCycle: '2010',
@@ -57,6 +62,12 @@ import services from '../../../api/services'
           type: 'selection',
           width: 60,
           align: 'center',
+        },
+         {
+          title: '账套编号',
+          key: 'id',
+          width:100,
+          resizable :true
         },
         {
           title: '账套名称',
@@ -184,8 +195,7 @@ import services from '../../../api/services'
                         }
                     }
         ],
-        data1: [
-        ],
+       data1: [],
         dataTotal: []
          // editIndex: -1,  // 当前聚焦的输入框的行数
         // editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
@@ -229,26 +239,49 @@ import services from '../../../api/services'
     },
     methods: {
       show (index) {
-          this.infoId=this.data1[index].workId
-          this.ifExist = true
+          this.infoId=this.data1[index].id
+          this.infoName=this.data1[index].name
+          console.dir(this.infoId)
+          this.ifShow = true
             },
       remove (index) {
-                this.data1.splice(index, 1);
-                this.dataCount--;
-                this.totalPage = Math.ceil(this.dataCount / this.pageSize)
+              this.infoId=this.data1[index].id
+            let tmp={
+              id:this.infoId
+            }
+               this.$http
+                .post(services.deleteSalaryById.deleteSalaryById,tmp)
+                .then(
+                  res => {
+                    if (res.data && res && res.data.result) {
+                      console.dir(res.data)
+                         this.data1.splice(index, 1);
+                          this.dataCount--;
+                          this.totalPage = Math.ceil(this.dataCount / this.pageSize)
+                          location.reload()
+                    } else if (res.data && res.data.resultCode !== '000000') {
+                      // this.$dialog.alert({ message: '服务器调用出错！' })
+                    }
+                  },
+                  res => {
+                    // error callback
+                  }
+                )
             },
       insertEmployee(){
-          this.ifShow = true
+          this.ifExist = true
 
       },
       save(value){
           if(value){
-            this.ifShow=false
+            this.ifExist=false
           }
       },
       edit(value){
+             console.dir(value)
            if(value){
-            this.ifExist=false
+             console.dir(value)
+            this.ifShow=false
           }
       },
       goCycleData() {
@@ -265,7 +298,7 @@ import services from '../../../api/services'
                  this.pageIndex = index
                console.dir(_start)
                console.dir(_end)
-                this.data1 = this.dataTotal.slice(_start, _end)
+                this.data1 = this.dataTotal.result.slice(_start, _end)
                 console.dir(this.data1)
       },
        pageSizeChange(value) {

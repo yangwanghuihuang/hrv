@@ -123,19 +123,6 @@ export default {
                this.formValidate.tiptopDegree = "高中"
                console.dir(this.formValidate.tiptopDegree.value)
             }
-            //  this.dataTotal = res.data
-            //  console.dir(this.dataTotal)
-            //  this.dataCount = this.dataTotal.result.result.length
-            //    this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-            //  if (this.dataTotal.length < this.pageSize) {
-            //         this.data1 = this.dataTotal
-            //     } else {
-            //         this.data1 = this.dataTotal.result.result.slice(0, this.pageSize)
-            //     }
-
-            // 进行跳转成功页面
-            // 成功后调用服务
-            // 给父组件传递flag标志，1为关闭当前，打开success。
           } else if (res.data && res.data.resultCode !== '000000') {
             this.$dialog.alert({ message: '服务器调用出错！' })
           }

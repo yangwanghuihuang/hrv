@@ -23,12 +23,12 @@
         <FormItem prop="identifyCodes">
           <Row>
             <Col span="10">
-              <Input placeholder="请输入验证码" v-model="loginForm.identifyCodes"></Input>
+              <Input placeholder="请输入验证码" v-model="loginForm.identifyCodes" @keydown.enter.native="submit('loginForm')"></Input>
             </Col>
             <Col span="5" offset="1">
-              <!--<img :src="codeUrl" v-if="codeUrl" @click="getVerificationCode"/>-->
-               <Button type="primary" v-if="sendValidationCode"  @click="getValidation()">获取验证码</Button>
-               <span class="validate" v-show="!sendValidationCode">{{validationTime}}s后重新发送 </span>
+              <Button v-if="requestCodeFlag === false" @click="getVerificationCode">获取验证码</Button>
+              <span v-if="requestCodeFlag === true && !codeUrl">获取中...</span>
+              <img :src="codeUrl" v-if="codeUrl" @click="getVerificationCode"/>
             </Col>
           </Row>
         </FormItem>
@@ -46,9 +46,10 @@ import services from '../../api/services'
     name: 'land',
     data () {
       return {
-        sendValidationCode:true,
-        validationTime:0,
+        // sendValidationCode:true,
+        // validationTime:0,
         codeUrl: '',
+        
         requestCodeFlag: false,
         loginForm: {
           username: '',
@@ -67,49 +68,20 @@ import services from '../../api/services'
         data:''
       }
     },
-    mounted() {},
+    mounted() {
+       this.getVerificationCode()
+    },
     methods: {
       /* 获取验证码 **/
-      getValidation() {
-       
-        this.$refs['loginForm'].validate((valid)=>{
-           if(valid){
-              alert("lll")
-               this.sendValidationCode=false
-               this.validationTime = 60
-        var timetimer =  setInterval(()=>{
-                this.validationTime--;
-                if(this.validationTime<=0){
-                    this.sendValidationCode = true;
-                    clearInterval(timetimer);
-                }
-            }, 1000);
-        
-         this.$http
-          .post(services.getValidation.getValidation)
-          .then(res => {
-            if (
-              res.data &&
-              res.data.resultMessage === "000000" &&
-              res.data.result
-            ) {
-              this.data= res.data.result;
-            } else if (res.data && res.data.resultCode !== "000000") {
-              this.data ='';
-              this.$Message.danger("服务调用出错！");
-            } else if (
-              res.data &&
-              res.data.resultCode === "000000" &&
-              !res.data.result
-            ) {
-              this.data = '';
-              this.$Message.danger("无对应的数据！");
-            }
-          });
-           }else{
-                this.$Message.danger("手机号格式不正确，请重新输入");
-           }
-       })
+      getVerificationCode() {
+       this.requestCodeFlag = true
+      let num = (new Date().getTime())
+      this.$http.get(services.getValidation.getValidation + '?' + num).then(res => {
+        if (res && res.data) {
+          console.dir(res.data)
+          this.codeUrl = res.data
+        }
+      })
       },
       loginNavToSecond() {
         this.$emit('loginNav', 2)

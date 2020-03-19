@@ -31,7 +31,19 @@ export default {
     addEmplyee:'/vhr/api/employee/v1.0/add'//添加员工信息
   },
   salaryInfo:{
-    salaryInfo:'/vhr/api/salary/v1.0/salaryDept'//获取薪资账套
+    salaryInfo:'/vhr/api/salary/v1.0/salaryDept'//获取薪资账套 
+  },
+  salaryByName:{
+    salaryByName:'/vhr/api/salary/v1.0/salaryById'//编辑的时候查询账套
+  },
+  saveSalary:{
+    saveSalary:'/vhr/api/salary/v1.0/addSalary'//新增账套
+  },
+  updateSalary:{
+    updateSalary:'/vhr/api/salary/v1.0/updateSalary'//修改账套
+  },
+  deleteSalaryById:{
+    deleteSalaryById:'/vhr/api/salary/v1.0/deleteSalaryById'//删除账套
   },
   emplyeeByName:{
     emplyeeByName:'/vhr/api/employee/v1.0/employee'//通过条件id获取员工信息
@@ -46,5 +58,6 @@ export default {
 
   empSalary:{
     empSalary:'/vhr/api/empsalary/v1.0/salaryDept'//获取员工工资账套
-  }
+  },
+ 
 }

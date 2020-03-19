@@ -1,18 +1,15 @@
 <template>
-    <div>
-       <Modal v-model="modal2" width="500"  @on-cancel="cancel">
+  <div class="editSalaryModal">
+      <Modal v-model="modal2" width="800"  @on-cancel="cancel">
         <p slot="header" style="color:#f60;text-align:left" >
-            <Button type="primary" :loading="modal_loading" @click="del('0')">保存</Button>
+            <Button type="primary"  @click="del('0')">保存</Button>
 
-            <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
+            <Button type="primary"  @click="del('1')">返回</Button>
         </p>
         <div style="text-align:left">
-             <Form  ref="formValidate" label-position="right" :label-width="100">
+              <Form  ref="formValidate" label-position="right" :label-width="100">
                  <Row>
                     <Col span="12">
-                     <FormItem label="账套名称：">
-                    <Input v-model="formValidate.name" placeholder="1000" style="width: 200px"/>
-                    </FormItem>
                     <FormItem label="启用时间：">
                         <!-- <Input v-model="formValidate.createDate" placeholder="1000" style="width: 200px"/> -->
                         <DatePicker type="date" v-model="formValidate.createdate" placeholder="Select date" style="width: 200px"></DatePicker>
@@ -56,19 +53,29 @@
             </Form>
         </div>
         <div slot="footer">
-            <!-- <Button type="error" :loading="modal_loading" @click="del">Delete</Button> -->
         </div>
     </Modal>
-    </div>
+  </div>
 </template>
+
 <script>
 import services from '../../../api/services'
 export default {
-    data() {
-        return {
-            modal2: true,
-            modal_loading: false,
-             formValidate:{
+ name: 'editSalaryModal',
+  props:{
+        infoId:{
+          type:Number,
+          default:0
+        },
+        infoName:{
+          type:String,
+          default:''
+        }
+    },
+  data() {
+    return {
+       modal2:true,
+       formValidate:{
            createdate:'',
            basicsalary:'',
            trafficsalary:'',
@@ -80,25 +87,49 @@ export default {
            medicalbase:'',
            accumulationfundper:'',
            accumulationfundbase:''
-          },
-         
+       }
+    }
+  },
+  components: {},
+  watch: {},
+  mounted() {
+      console.dir(this.infoName)
+      let tmp={
+         id: this.infoId,
+         name:this.infoName
+      }
+       this.$http
+      .post(services.salaryByName.salaryByName,tmp)
+      .then(
+        res => {
+          if (res.data && res && res.data.result) {
+            this.formValidate = res.data.result
+            console.dir(res.data.result.createDateDesc)
+            this.formValidate.createDate=res.data.result.createDateDesc
+        //   this.createDate=new Date(res.data.result.createDateDesc)
+          } else if (res.data && res.data.resultCode !== '000000') {
+        //    this.$dialog.alert({ message: '服务器调用出错！' })
+          }
+        },
+        res => {
+          // error callback
         }
-    },
-    methods: {
-        del (value) {
+      )
+  },
+  methods: {
+        cancel () {
+              this.$emit('edit', '1')
+            },
+            del (value) {
             if (value === '1') {
-                this.modal_loading = true
-                setTimeout(() => {
-                    this.modal_loading = false
-                    this.modal2 = false
-                    this.$Message.success('已取消')
-                }, 2000)
-                this.$emit('save', '1')
+                this.$emit('edit', '1')
             }
+            //保存
             if (value === '0') {
-
-                this.$http
-                .post(services.saveSalary.saveSalary,this.formValidate)
+                this.$emit('edit', '0')
+             alert('mm')
+                 this.$http
+                .post(services.updateSalary.updateSalary,this.formValidate)
                 .then(
                     res => {
                          alert("llllmmm")
@@ -116,18 +147,13 @@ export default {
                     // error callback
                     }
                 )
-                this.$emit('save', '0')
             }
             },
-              cancel () {
-                this.$Message.info('已取消')
-                this.modal1 = true
-                  this.$emit('save', '1')
-            }
-    }
+  }
 }
 </script>
-<style lang="less" scope>
+
+<style scoped lang="less">
 .ivu-modal-header p, .ivu-modal-header-inner {
     height: 32px;
     line-height: 32px;

@@ -75,7 +75,7 @@ module.exports = {
       port: 8081,
       proxy: { // 设置代理
         '/vhr': {
-          target: 'http://127.0.0.1:8080/', // 访问后台地址
+          target: 'http://127.0.0.1:80/', // 访问后台地址
           changeOrigin: true
         },
       }
