@@ -1,7 +1,7 @@
 <template>
   <div class="header-layout">
     <div class="header-left">
-      <h1>中国移动内容计费结算系统V1.5</h1>
+      <h1>微人事信息管理系统</h1>
     </div>
     <div class="header-right">
       <Icon type="md-person" color="#128af6"/>
@@ -33,7 +33,7 @@
           title: '确认退出？',
           onOk: () => {
             this.$Message.info('成功退出')
-            this.$router.push({ name: '' })
+            this.$router.push({ name: 'login' })
             this.$store.dispatch('user/access_token', '')
             localStorage.clear()
             sessionStorage.clear()

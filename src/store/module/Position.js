@@ -1,34 +1,34 @@
 export default{
-  namespaced: true,
+    namespaced: true,
     state:{
-       departOption:null
+        positionOption:null
     },
     mutations: {
-        setDepartOption (state, data) {
+        setPositionOption (state, data) {
           console.dir(data)
           console.dir(state)
           console.dir("1")
-            state.departOption = data;
-            localStorage.setItem('departOption_sel', JSON.stringify(data))
+            state.positionOption = data;
+            localStorage.setItem('positionOption_sel', JSON.stringify(data))
           },
     },
     getters: {
-        getDepartOption: (state) => {
+        getPositionOption: (state) => {
           console.dir("2")
-            const cache = localStorage.getItem('departOption_sel');
+            const cache = localStorage.getItem('positionOption_sel');
             let cacheData = null;
             if (cache) {
               cacheData = JSON.parse(cache)
             }
-            if (state.departOption) {
-              return state.departOption
+            if (state.positionOption) {
+              return state.positionOption
             } else {
               return cacheData
             }
           },
     },
     actions: {
-      departOption(context,param){
+      PositonOption(context,param){
        console.dir(param)
           let tmp = [];
                   for (let item of param) {
@@ -38,7 +38,7 @@ export default{
                     })
                   }
                   console.dir(tmp)
-                  context.commit('setDepartOption', tmp);
+                  context.commit('setPositionOption', tmp);
         }
     }
 }

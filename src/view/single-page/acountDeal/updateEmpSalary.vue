@@ -1,6 +1,6 @@
 <template>
-  <div class="editSalaryModal">
-      <Modal v-model="modal2" width="800"  @on-cancel="cancel">
+  <div class="updateEmpSalary">
+     <Modal v-model="modal2" width="800"  @on-cancel="cancel">
         <p slot="header" style="color:#f60;text-align:left" >
             <Button type="primary"  @click="del('0')">保存</Button>
 
@@ -47,6 +47,7 @@
                     <FormItem label="公积金基数：">
                         <Input v-model="formValidate.accumulationfundbase"  placeholder="89785" style="width: 200px"/>
                     </FormItem>
+                 
                     </Col>
                 </Row>   
               
@@ -61,21 +62,18 @@
 <script>
 import services from '../../../api/services'
 export default {
- name: 'editSalaryModal',
+ name: 'updateEmpSalary',
   props:{
         infoId:{
           type:Number,
           default:0
-        },
-        infoName:{
-          type:String,
-          default:''
         }
     },
   data() {
     return {
-       modal2:true,
+         modal2:true,
        formValidate:{
+           id:0,
            createdate:'',
            basicsalary:'',
            trafficsalary:'',
@@ -93,13 +91,13 @@ export default {
   components: {},
   watch: {},
   mounted() {
-      console.dir(this.infoName)
-      let tmp={
-         id: this.infoId,
-         name:this.infoName
+      console.dir(this.infoId)
+      //通过账套id，先展示账套信息
+       let tmp={
+         id: this.infoId
       }
        this.$http
-      .post(services.salaryByName.salaryByName,tmp)
+      .post(services.empSalaryById.empSalaryById,tmp)
       .then(
         res => {
           if (res.data && res && res.data.result) {
@@ -120,35 +118,31 @@ export default {
         cancel () {
               this.$emit('edit', '1')
             },
-            del (value) {
-            if (value === '1') {
-                this.$emit('edit', '1')
+        del(value){
+            if(value=='1'){
+                 alert("back")
+                    this.$emit('edit', '1')
             }
-            //保存
-            if (value === '0') {
-                this.$emit('edit', '0')
-             alert('mm')
-                 this.$http
-                .post(services.updateSalary.updateSalary,this.formValidate)
+            if(value=='0'){
+                 alert("submit")
+                 //修改账套信息
+                  this.formValidate.id=this.infoId
+                  this.$http
+                .post(services.salaryById.salaryById,this.formValidate)
                 .then(
                     res => {
-                         alert("llllmmm")
-                    if (res.data && res) {
+                    if (res.data && res&&res.data.resultCode === '000000') {
                        console.dir(res.data.result)
-
-                        // 进行跳转成功页面
-                        // 成功后调用服务
-                        // 给父组件传递flag标志，1为关闭当前，打开success。
+                       this.$emit('edit', '1')
                     } else if (res.data && res.data.resultCode !== '000000') {
                         // this.$dialog.alert({ message: '服务器调用出错！' })
                     }
                     },
                     res => {
-                    // error callback
                     }
                 )
             }
-            },
+        }
   }
 }
 </script>

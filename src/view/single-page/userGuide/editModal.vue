@@ -57,11 +57,15 @@
                     <FormItem label="转正日期：">
                         <DatePicker type="date" v-model="formValidate.conversiontime" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="部门：">
-                        <Input v-model="formValidate.departmentid"  placeholder="3年" style="width: 200px"/>
+                    <FormItem label="部门：" prop="departmentid">
+                        <Select v-model="formValidate.departmentid" style="width:200px" @on-change="getPositionOption()">
+                            <Option v-for="item in departOption" :value="item.value" :key="item.value">{{ item.name }}</Option>
+                        </Select>
                     </FormItem>
                     <FormItem label="职位：">
-                         <Input v-model="formValidate.posid"  placeholder="3年" style="width: 200px"/>
+                         <Select :disabled="idDisabled" v-model="formValidate.posid" style="width:200px">
+                            <Option v-for="item in PositonOption" :value="item.value" :key="item.name">{{ item.name }}</Option>
+                        </Select>
                     </FormItem>
                     </Col>
                 </Row>   
@@ -80,6 +84,7 @@ export default {
         return {
             modal2: true,
             modal_loading: false,
+              idDisabled:true,
             formValidate: {
                  name:'',
                 nativeplace:'',
@@ -104,7 +109,26 @@ export default {
           default:0
         },
     },
+      computed:{
+      departOption() {
+          //映射getter的数据到组件中，可以直接使用
+            return this.$store.getters['depart/getDepartOption'] || []
+
+        },
+         PositonOption() {
+          //映射getter的数据到组件中，可以直接使用
+            return this.$store.getters['position/getPositionOption'] || []
+            
+        },
+    },
      mounted() { 
+            this.$http.post(services.param.getDepart).then(res => {
+                if (res && res.data.result) {
+                    console.dir(res.data.result)
+                    this.$store.dispatch('depart/departOption',res.data.result);
+                 
+                }
+              });
       let tmp={
           pageNum:1,
           pageSize:10,
@@ -162,6 +186,24 @@ export default {
                 )
             }
             },
+               getPositionOption(){
+            if(this.formValidate.departmentid){
+                 this.idDisabled=false
+            }else{
+                this.idDisabled=true
+                this.formValidate.posid=''
+            }
+            let tmp={
+                id:this.formValidate.departmentid
+            }
+               this.$http.post(services.getPost.getPost,tmp).then(res => {
+                if (res && res.data.result) {
+                    console.dir(res.data.result)
+                    this.$store.dispatch('position/PositonOption',res.data.result);
+                 
+                }
+              });
+        },
         cancel () {
               this.$emit('edit', '1')
             }

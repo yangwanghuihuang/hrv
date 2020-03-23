@@ -13,7 +13,7 @@ axios.interceptors.request.use(config => {
   iView.LoadingBar.start()
   // console.log(config)
   let access_token = sessionStorage.getItem('access_token')
-  // console.dir('http~~~~~~~~~~' + access_token)
+  // 如果有token，就给token带到请求头
   if (access_token) {
     config.headers.Authorization = 'Bearer ' + JSON.parse(access_token)
   }

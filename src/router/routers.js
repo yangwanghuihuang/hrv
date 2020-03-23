@@ -221,22 +221,6 @@ export default [
         },
         component: () => import('@/view/single-page/reportSend/divideReport.vue')
       },
-      {
-        path: 'uploadReport',
-        name: 'uploadReport',
-        meta: {
-          title: '上传报表'
-        },
-        component: () => import('@/view/single-page/reportSend/uploadReport.vue')
-      },
-      {
-        path: 'divideResult',
-        name: 'divideResult',
-        meta: {
-          title: '拆分结果'
-        },
-        component: () => import('@/view/single-page/reportSend/divideResult.vue')
-      }
     ]
   },
   {

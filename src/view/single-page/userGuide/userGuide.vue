@@ -267,7 +267,7 @@ import editEmployee from './editModal'
                          this.data1.splice(index, 1);
                           this.dataCount--;
                           this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-                          location.reload()
+                       //   location.reload()
                     } else if (res.data && res.data.resultCode !== '000000') {
                       this.$dialog.alert({ message: '服务器调用出错！' })
                     }
@@ -385,7 +385,7 @@ import editEmployee from './editModal'
         }
         .textStyle{
           width: auto;
-          margin-left: 922px;
+          margin-left: 1140px;
           font-size: 14px;
           height: 32px;
           line-height: 29px;

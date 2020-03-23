@@ -339,7 +339,7 @@ import saveSalary from './saveModal'
         }
         .textStyle{
           width: auto;
-          margin-left: 959px;
+          margin-left: 1145px;
           font-size: 14px;
           height: 32px;
           line-height: 29px;

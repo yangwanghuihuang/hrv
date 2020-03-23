@@ -52,12 +52,48 @@ export default {
     updateEmp:'/vhr/api/employee/v1.0/update'  //修改员工信息
   },
   param:{
-    getDepart:'/vhr/api/employee/v1.0/getDepart'
+    getDepart:'/vhr/api/employee/v1.0/getDepart'//获取所有部门信息
   },
-
-
+  getPost:{
+    getPost:'/vhr/api/employee/v1.0/getPost'//通过部门id获取职位id
+  },
+  selsetAllPosts:{
+    selsetAllPosts:'/vhr/api/post/v1.0/selsetAllPosts'//获取岗位信息
+  },
   empSalary:{
     empSalary:'/vhr/api/empsalary/v1.0/salaryDept'//获取员工工资账套
   },
- 
+  empSalaryById:{
+    empSalaryById:'/vhr/api/empsalary/v1.0/salaryEmpById'//通过账套信息查询工资账套
+  },
+  salaryById:{
+    salaryById:'/vhr/api/empsalary/v1.0/salaryById'//通过员工id修改员工工资账套
+  },
+  selectEmp:{
+    selectEmp:'/vhr/api/empsalary/v1.0/selectEmp'//通过部门、工龄、转正信息组合条件查询员工信息
+  },
+  queryDepartById:{
+    queryDepartById:'/vhr/api/post/v1.0/queryDepartById'//通过部门id查询部门信息
+  },
+  updateDeparts:{
+    updateDeparts:'/vhr/api/post/v1.0/updateDeparts'//修改部门信息
+  },
+  deleteDeparts:{
+    deleteDeparts:'/vhr/api/post/v1.0/deleteDeparts'//通过部门id删除部门信息
+  },
+  addDepartments:{
+    addDepartments:'/vhr/api/post/v1.0/addDepartments'//添加部门信息
+  },
+  addPosts:{
+    addPosts:'/vhr/api/post/v1.0/addPosts'//添加岗位信息
+  },
+  queryPostById:{
+    queryPostById:'/vhr/api/post/v1.0/queryPostById'//通过岗位id查询岗位信息
+  },
+  updatePosts:{
+    updatePosts:'/vhr/api/post/v1.0/updatePosts'//修改岗位信息
+  },
+  deletePosts:{
+    deletePosts:'/vhr/api/post/v1.0/deletePosts'//删除岗位信息
+  }
 }

@@ -76,12 +76,7 @@ import services from '../../api/services'
       getVerificationCode() {
        this.requestCodeFlag = true
       let num = (new Date().getTime())
-      this.$http.get(services.getValidation.getValidation + '?' + num).then(res => {
-        if (res && res.data) {
-          console.dir(res.data)
-          this.codeUrl = res.data
-        }
-      })
+         this.codeUrl = services.getValidation.getValidation + '?' + num
       },
       loginNavToSecond() {
         this.$emit('loginNav', 2)
@@ -89,24 +84,33 @@ import services from '../../api/services'
         submit(loginForm) {
 	    	      this.$refs[loginForm].validate((valid) => {
 	    	        if (valid) {
-                    let access_token = 'qwerdasdadqeffgsg'
-                    this.$store.dispatch('user/access_token', access_token)
+              
+                
 	    	          // // let CryptoJS_password = this.$publicFunc.encrypt(this.loginForm.password)
 	    	          let formData = {
 	    	            username: this.loginForm.username,
 	    	            password: this.loginForm.password,
-	    	            authority: this.data
+	    	            authority: this.loginForm.identifyCodes
 	    	          }
 	    	          this.$http.post(services.login.checkToken, formData).then(res => {
-	    	            if (res && res.data) {
-                      console.dir(res.data.result)
-	    	              if (res.data) {
-	    	               if(res.data.resultCode === '000000'){
-	    	                    this.$router.push({name:'userGuide'}) 
-	    	               }
-	    	            
-	    	              }
-	    	            }
+	    	            if (res && res.data && res.data.result) {
+                      console.dir("登陆成功")
+                      //验证token，存入缓存
+                      this.$store.dispatch('user/access_token', res.data.info.token)
+                      this.$router.push({name:'userGuide'}) 
+	    	            }else if(res.data.resultMessage==='验证码不正确'){
+                       console.dir("登陆失败")
+                       this.$Message.warning({
+                          content:    '验证码不正确，请重新登录!',
+                           duration: 5
+                       })
+                    }else if(res.data.resultMessage==='未查询到数据'){
+                       console.dir("登陆失败")
+                       this.$Message.warning({
+                          content:    '账号密码不正确或该用户不存在,请重新登录!',
+                           duration: 5
+                       })
+                    }
 	    	          })
 	    	        } else {
 	    	          this.$Message.warning('请完善登录信息!')

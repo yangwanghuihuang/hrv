@@ -1,6 +1,6 @@
 <template>
     <div>
-       <Modal v-model="modal2" width="500"  @on-cancel="cancel">
+       <Modal v-model="modal2" width="800"  @on-cancel="cancel">
         <p slot="header" style="color:#f60;text-align:left" >
             <Button type="primary" :loading="modal_loading" @click="del('0')">保存</Button>
 
