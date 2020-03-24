@@ -83,9 +83,7 @@ import services from '../../api/services'
       },
         submit(loginForm) {
 	    	      this.$refs[loginForm].validate((valid) => {
-	    	        if (valid) {
-              
-                
+	    	        if (valid) {                
 	    	          // // let CryptoJS_password = this.$publicFunc.encrypt(this.loginForm.password)
 	    	          let formData = {
 	    	            username: this.loginForm.username,
@@ -99,13 +97,24 @@ import services from '../../api/services'
                           console.dir("管理员登陆成功")
                             //验证token，存入缓存
                             this.$store.dispatch('user/access_token', res.data.info.token)
-                            this.$router.push({name:'userGuide'}) 
+                            this.$router.push({
+                              name:'userGuide',
+                              params:{
+                                  flag:0,
+                                }
+                              }) 
                       }
                        if(res.data.result.remark===1){
                           console.dir("普通员工登陆成功")
                             //验证token，存入缓存
                             this.$store.dispatch('user/access_token', res.data.info.token)
-                            // this.$router.push({name:'userGuide'}) 
+                            
+                             this.$router.push({
+                               name:'userInfo',
+                               params:{
+                                  flag:1,
+                                }
+                             }) 
                       }
                     
                     

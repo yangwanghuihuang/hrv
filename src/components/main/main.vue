@@ -6,7 +6,27 @@
     <Layout>
       <Sider :style="{overflow: 'auto'}">
         <Menu theme="dark" width="auto" ref="menu" @on-select="handleSelect" :active-name="activeName" :open-names="openName" accordion>
-          <div v-for="item in menu_list" :key="item.menu_url">
+          <div v-for="item in menu_list" :key="item.menu_url"  v-if="ifExist">
+            <MenuItem v-if="!item.children_list" :name="item.menu_url">{{item.menu_name}}</MenuItem>
+            <menuItem  v-if="item.children_list" :itemData="item"></menuItem>
+            <!--<Submenu v-if="item.children_list" :name="item.menu_id">-->
+              <!--<template slot="title">-->
+                <!--<Icon :type="item.menu_icon" />-->
+                <!--{{item.menu_name}}-->
+              <!--</template>-->
+              <!--<div v-for="(item_child) in item.children_list" :key="item_child.menu_url">-->
+                <!--<MenuItem v-if="!item_child.children_list" :name="item_child.menu_url"> {{item_child.menu_name}}</MenuItem>-->
+                <!--<Submenu v-if="item_child.children_list" :name="item_child.menu_id">-->
+                  <!--<template slot="title">-->
+                    <!--<Icon :type="item_child.menu_icon" />-->
+                    <!--{{item_child.menu_name}}-->
+                  <!--</template>-->
+                  <!--<MenuItem :name="item_child_child.menu_url" v-for="(item_child_child) in item_child.children_list" :key="item_child_child.menu_url"> {{item_child_child.menu_name}}</MenuItem>-->
+                <!--</Submenu>-->
+              <!--</div>-->
+            <!--</Submenu>-->
+          </div>
+           <div v-for="item in menu_list2" :key="item.menu_url" v-if="ifShow">
             <MenuItem v-if="!item.children_list" :name="item.menu_url">{{item.menu_name}}</MenuItem>
             <menuItem  v-if="item.children_list" :itemData="item"></menuItem>
             <!--<Submenu v-if="item.children_list" :name="item.menu_id">-->
@@ -38,6 +58,7 @@
   import HeaderBar from './components/header'
   import menuItem from './components/menuItem'
   import Menu from './menu'
+  import Menu2 from './menu2'
   export default {
     name: 'Main',
     components: {
@@ -46,6 +67,8 @@
     },
     data () {
       return {
+        ifShow:false,
+        ifExist:true,
         type: 'main',
         activeName: '',
         openName: [],
@@ -59,6 +82,11 @@
       menu_list() {
         this.$store.commit('menu/setSiderMenuMap', Menu)
         return Menu
+      },
+       menu_list2() {
+        this.$store.commit('menu/setSiderMenuMap', Menu2)
+        
+        return Menu2
       }
     },
     watch: {
@@ -75,14 +103,52 @@
         this.$nextTick(() => this.$refs.menu.updateOpened())
       }
     },
-    created() {
-      this.activeName = this.menu_list[0].menu_url
+    created() {    
+           if(this.$route.params.flag===0){
+                  this.ifShow=false
+                  this.ifExist=true
+                  this.activeName = this.menu_list[0].menu_url
+            }
+           if(this.$route.params.flag===1){
+                this.ifExist=false
+                this.ifShow=true
+               this.activeName = this.menu_list2[0].menu_url
+           }
     },
-    mounted () {},
+    mounted () {
+         console.dir(this.$route.params)
+         if(this.$route.params){
+            if(this.$route.params.flag===0){
+              console.dir("lllll")
+                  this.ifShow=false
+                  this.ifExist=true
+            }
+           if(this.$route.params.flag===1){
+             this.ifExist=false
+             this.ifShow=true
+             localStorage.setItem('menu2_sel', JSON.stringify(Menu2))
+           }
+         }
+         //为了解决刷新浏览器，菜单改变
+         console.dir(this.$route.params.flag)
+         if(this.$route.params.flag === undefined){     
+          this.Menu2= localStorage.getItem('menu2_sel');
+            if(this.Menu2){
+                this.ifExist=false
+                this.ifShow=true
+            }
+            if(!this.Menu2){
+                this.ifShow=false
+                this.ifExist=true
+            }
+            console.dir(this.Menu2)
+         }
+        
+    },
     methods: {
       handleSelect (name) {
         this.$router.push({ name: name })
-      }
+      },
     }
   }
 </script>

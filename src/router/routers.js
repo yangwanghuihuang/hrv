@@ -221,6 +221,38 @@ export default [
         },
         component: () => import('@/view/single-page/reportSend/divideReport.vue')
       },
+      {
+        path: 'userInfo',
+        name: 'userInfo',
+        meta: {
+          title: '我的信息'
+        },
+        component: () => import('@/view/single-page/userInfo/userInfo.vue')
+      },
+      {
+        path: 'salary',
+        name: 'salary',
+        meta: {
+          title: '员工工资'
+        },
+        component: () => import('@/view/single-page/userInfo/salary.vue')
+      },
+      {
+        path: 'resource',
+        name: 'resource',
+        meta: {
+          title: '资料下载'
+        },
+        component: () => import('@/view/single-page/userInfo/resource.vue')
+      },
+      {
+        path: 'policy',
+        name: 'policy',
+        meta: {
+          title: '政策查询'
+        },
+        component: () => import('@/view/single-page/userInfo/policy.vue')
+      },
     ]
   },
   {

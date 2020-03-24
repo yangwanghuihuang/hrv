@@ -12,10 +12,22 @@ export default {
     },
     setSiderMenuMap (state, param) {
       state.siderMenuMap = getSiderMenuMap(param)
+   
     }
   },
   getters: {
-
+    //  getMenu: (state) => {
+    //   const cache = localStorage.getItem('menu2_sel');
+    //   let cacheData = null;
+    //   if (cache) {
+    //     cacheData = JSON.parse(cache)
+    //   }
+    //   if (state.siderMenuMap) {
+    //     return state.siderMenuMap
+    //   } else {
+    //     return cacheData
+    //   }
+    //  }
   },
   actions: {
 

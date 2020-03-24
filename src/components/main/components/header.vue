@@ -35,6 +35,7 @@
             this.$Message.info('成功退出')
             this.$router.push({ name: 'login' })
             this.$store.dispatch('user/access_token', '')
+            this.$store.dispatch('menu/siderMenuMap','')
             localStorage.clear()
             sessionStorage.clear()
           },
