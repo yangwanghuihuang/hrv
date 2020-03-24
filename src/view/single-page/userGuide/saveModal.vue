@@ -77,6 +77,14 @@
                         </Select>
                       
                     </FormItem>
+                     <FormItem label="权限：">
+                        <Select v-model="formValidate.remark" placeholder="请选择--">
+                            <Option value="1" selected>员工</Option>
+                             <Option value="0">管理员</Option>
+
+                        </Select>
+                      
+                    </FormItem>
                     </Col>
                 </Row>   
               
@@ -110,7 +118,8 @@ export default {
                 begindate:'',
                 posid:'',
                 departmentid:'',
-                workstate:'1'
+                workstate:'1',
+                remark:'1'
                 },
         }
     },

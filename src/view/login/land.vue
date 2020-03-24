@@ -94,10 +94,21 @@ import services from '../../api/services'
 	    	          }
 	    	          this.$http.post(services.login.checkToken, formData).then(res => {
 	    	            if (res && res.data && res.data.result) {
-                      console.dir("登陆成功")
-                      //验证token，存入缓存
-                      this.$store.dispatch('user/access_token', res.data.info.token)
-                      this.$router.push({name:'userGuide'}) 
+                      console.dir(res.data.result.remark===0)
+                      if(res.data.result.remark===0){
+                          console.dir("管理员登陆成功")
+                            //验证token，存入缓存
+                            this.$store.dispatch('user/access_token', res.data.info.token)
+                            this.$router.push({name:'userGuide'}) 
+                      }
+                       if(res.data.result.remark===1){
+                          console.dir("普通员工登陆成功")
+                            //验证token，存入缓存
+                            this.$store.dispatch('user/access_token', res.data.info.token)
+                            // this.$router.push({name:'userGuide'}) 
+                      }
+                    
+                    
 	    	            }else if(res.data.resultMessage==='验证码不正确'){
                        console.dir("登陆失败")
                        this.$Message.warning({
