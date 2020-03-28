@@ -5,7 +5,7 @@
     </div>
     <div class="header-right">
       <Icon type="md-person" color="#128af6"/>
-      <p style="font-size: 0.5em">{{user_info}}({{groupName}})</p>
+      <p style="font-size: 0.5em">{{user_info}}</p>
       <Icon style="cursor:pointer;" type="ios-power" color="#128af6" @click="confirm"/>
     </div>
   </div>
@@ -22,22 +22,29 @@
     data () {
       return {
         user_info: '管理员',
-        groupName: '前端开发'
       }
     },
     computed: {},
-    mounted() {},
+    mounted() {
+      if(this.$route.params){
+            if(this.$route.params.flag===0){
+           this.user_info='管理员'
+            }
+           if(this.$route.params.flag===1){
+              this.user_info='普通员工'
+           }
+         }
+    },
     methods: {
       confirm () {
         this.$Modal.confirm({
           title: '确认退出？',
           onOk: () => {
-            this.$Message.info('成功退出')
-            this.$router.push({ name: 'login' })
+            
             this.$store.dispatch('user/access_token', '')
-            this.$store.dispatch('menu/siderMenuMap','')
             localStorage.clear()
             sessionStorage.clear()
+            this.$router.push({ name: 'login' })
           },
           onCancel: () => {
             this.$Message.info('已取消退出')

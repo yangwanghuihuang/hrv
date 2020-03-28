@@ -11,11 +11,9 @@
                 </Col>
                 <Col span="8">
                  <FormItem label="部门" prop="departmentid">
-                    <Select v-model="formValidate.departmentid" placeholder="Select your city">
-                        <Option value="1">New York</Option>
-                        <Option value="78">London</Option>
-                        <Option value="4">Sydney</Option>
-                    </Select>
+                   <Select v-model="formValidate.departmentid" style="width:200px">
+                            <Option v-for="item in departOption" :value="item.value" :key="item.value">{{ item.name }}</Option>
+                        </Select>
                 </FormItem>
                 </Col>
                   <Col span="8">
@@ -37,7 +35,7 @@
     <div class="main">
       <div class="main_page">
             <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
-        <Page class="pageStyle" simple show-sizer show-total :pageHeight="pageHeight" :total="dataCount" :page-size="pageSize"  @on-page-size-change="pageSizeChange"  @on-change="changepage"></Page>
+        <Page class="pageStyle" simple show-sizer show-total :total="dataCount" :page-size="pageSize"  @on-page-size-change="pageSizeChange"  @on-change="changepage"></Page>
       </div>
 
       <Table :height="tableHeight" border ref="selection" :columns="columns4" :data="data1">
@@ -197,7 +195,21 @@ import { export2Excel } from '../../../components/common/js/util'
     },
     created() {
     },
+      computed: {
+         departOption() {
+          //映射getter的数据到组件中，可以直接使用
+            return this.$store.getters['depart/getDepartOption'] || []
+
+        },
+      },
     mounted() {
+        this.$http.post(services.param.getDepart).then(res => {
+                if (res && res.data.result) {
+                    console.dir(res.data.result)
+                    this.$store.dispatch('depart/departOption',res.data.result);
+                 
+                }
+              });
       this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
        this.$http
       .post(services.emplyeeInfo.emplyeeInfo)
@@ -281,7 +293,8 @@ import { export2Excel } from '../../../components/common/js/util'
        pageSizeChange(value) {
         this.pageSize = value
            this.totalPage = Math.ceil(this.datacount / this.pageSize)
-      }
+      },
+    
     }
   }
 </script>

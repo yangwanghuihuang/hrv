@@ -101,6 +101,7 @@ import services from '../../api/services'
                               name:'userGuide',
                               params:{
                                   flag:0,
+                                  userId:res.data.result.username,
                                 }
                               }) 
                       }
@@ -113,6 +114,7 @@ import services from '../../api/services'
                                name:'userInfo',
                                params:{
                                   flag:1,
+                                  userId:res.data.result.username,
                                 }
                              }) 
                       }

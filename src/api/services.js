@@ -24,6 +24,9 @@ export default {
   emplyeeByworkId:{
     emplyeeByworkId:'/vhr/api/employee/v1.0/employeeById'//通过条件id获取员工信息
   },
+  employeeByWorid:{
+    employeeByWorid:'/vhr/api/employee/v1.0/employeeByWorid'//通过工号查询员工信息
+  },
   deleteById:{
     deleteById:'/vhr/api/employee/v1.0/deleteById'//通过id删除员工信息
   },
@@ -46,7 +49,7 @@ export default {
     deleteSalaryById:'/vhr/api/salary/v1.0/deleteSalaryById'//删除账套
   },
   emplyeeByName:{
-    emplyeeByName:'/vhr/api/employee/v1.0/employee'//通过条件id获取员工信息
+    emplyeeByName:'/vhr/api/employee/v1.0/employee'//通过条件名称获取员工信息
   },
   updateEmp:{
     updateEmp:'/vhr/api/employee/v1.0/update'  //修改员工信息
@@ -95,5 +98,8 @@ export default {
   },
   deletePosts:{
     deletePosts:'/vhr/api/post/v1.0/deletePosts'//删除岗位信息
+  },
+  empSalaryByMonth:{
+    empSalaryByMonth:'/vhr/api/empSalaryByMonth/v1.0/empSalaryByMonth'//按月查询员工工资信息
   }
 }

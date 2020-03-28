@@ -127,9 +127,10 @@
              this.ifExist=false
              this.ifShow=true
              localStorage.setItem('menu2_sel', JSON.stringify(Menu2))
+             localStorage.setItem('userWorkid', this.$route.params.userId)
            }
          }
-         //为了解决刷新浏览器，菜单改变
+         //为了解决刷新浏览器，菜单改变问题
          console.dir(this.$route.params.flag)
          if(this.$route.params.flag === undefined){     
           this.Menu2= localStorage.getItem('menu2_sel');
