@@ -1,38 +1,38 @@
 <template>
     <div>
        <Modal v-model="modal2" width="800"  @on-cancel="cancel">
-        <p slot="header" style="color:#f60;text-align:left" >
+        <!-- <p slot="header" style="color:#f60;text-align:left" >
             <Button type="primary" :loading="modal_loading" @click="del('0')">提交</Button>
 
             <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
-        </p>
+        </p> -->
         <div style="text-align:left">
-              <Form  ref="formValidate" label-position="right" :label-width="100">
+              <Form  ref="formValidate"  :model="formValidate"  label-position="right" :label-width="100"  :rules="ruleFormValidate">
                  <Row>
                     <Col span="12">
-                     <FormItem label="姓名：">
+                     <FormItem label="姓名：" prop="name">
                         <Input v-model="formValidate.name" placeholder="default size" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="性别：">
+                    <FormItem label="性别："  prop="gender">
                         <RadioGroup v-model="formValidate.gender">
-                            <Radio label="男"></Radio>
+                            <Radio label="男" ></Radio>
                             <Radio label="女"></Radio>
                         </RadioGroup>
                     </FormItem>
-                    <FormItem label="出生日期：">
+                    <FormItem label="出生日期："  prop="birthday">
                        
                         <DatePicker type="date" v-model="formValidate.birthday" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="籍贯：">
+                    <FormItem label="籍贯：" prop="nativeplace">
                     <Input v-model="formValidate.nativeplace" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="民族：">
+                    <FormItem label="民族：" prop="nationDesc">
                     <Input v-model="formValidate.nationDesc" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="手机号：">
+                    <FormItem label="手机号：" prop="phone" >
                         <Input v-model="formValidate.phone" placeholder="default size" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="工号：">
+                    <FormItem label="工号：" prop="workid">
                         <Input v-model="formValidate.workid"  placeholder="89785" style="width: 200px"/>
                     </FormItem>
                     </Col>
@@ -53,10 +53,10 @@
                     <!-- <FormItem label="工龄：">
                         <Input v-model="formValidate.workage"  placeholder="3年" style="width: 200px"/>
                     </FormItem> -->
-                    <FormItem label="入职日期：">
+                    <FormItem label="入职日期："  prop="begindate">
                         <DatePicker type="date" v-model="formValidate.begindate" placeholder="Select date  必填写" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="转正日期：">
+                    <FormItem label="转正日期："  prop="conversiontime">
                         <DatePicker type="date" v-model="formValidate.conversiontime" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="部门：" prop="departmentid">
@@ -70,7 +70,7 @@
                         </Select>
                     </FormItem>
                     <FormItem label="在职状态：">
-                        <Select v-model="formValidate.workstate" placeholder="请选择--">
+                        <Select v-model="formValidate.workstate" placeholder="请选择--"  style="width:200px">
                             <Option value="1" selected>在职</Option>
                              <Option value="2">离职</Option>
 
@@ -78,12 +78,16 @@
                       
                     </FormItem>
                      <FormItem label="权限：">
-                        <Select v-model="formValidate.remark" placeholder="请选择--">
+                        <Select v-model="formValidate.remark" placeholder="请选择--"  style="width:200px">
                             <Option value="1" selected>员工</Option>
                              <Option value="0">管理员</Option>
 
                         </Select>
                       
+                    </FormItem>
+                     <FormItem>
+                        <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                        <Button @click="del('1')" style="margin-left: 8px">返回</Button>
                     </FormItem>
                     </Col>
                 </Row>   
@@ -99,6 +103,15 @@
 import services from '../../../api/services'
 export default {
     data() {
+         const validatePhone = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('手机号不能为空'));
+            } else if (!/^1[34578]\d{9}$/.test(value)) {
+                callback('手机号格式不正确');
+            } else {
+                callback();
+            }   
+        };
         return {
             modal2: true,
             modal_loading: false,
@@ -108,7 +121,7 @@ export default {
                 nativeplace:'',
                 nationDesc:'',
                 birthday:'',
-                gender:'',
+                gender:'1',
                 phone:'',
                 workid:'',
                 tiptopdegree: '1',
@@ -117,10 +130,24 @@ export default {
                 conversiontime:'',
                 begindate:'',
                 posid:'',
-                departmentid:'',
+                departmentid:'1',
                 workstate:'1',
                 remark:'1'
                 },
+            ruleFormValidate:{
+                 name:[
+                        { required: true, message: '请输入姓名', trigger: 'blur' }
+                    ],
+                 gender:{ required: true, message: '请选择性别', trigger: 'blur' },
+                 birthday:{required: true,type: 'date', message: '选择出生日期', trigger: 'blur'},
+                 nativeplace:{required: true, message: '选择籍贯', trigger: 'blur'},
+                 nationDesc:{required: true, message: '选择民族', trigger: 'blur'},
+                 phone: { required: true,validator:validatePhone,trigger:'blur'},
+                 workid:{required: true, message: '请输入员工工号', trigger: 'blur'},
+                 begindate:{required: true,type: 'date', message: '请选择开始日期', trigger: 'blur'},
+                 conversiontime:{required: true, type: 'date',message: '请选择转正日期', trigger: 'blur'},
+                //  departmentid:{required: true, message: '请选择所在部门', trigger: 'blur'}
+            }
         }
     },
       computed:{
@@ -152,28 +179,37 @@ export default {
             if (value === '1') {
                 this.$emit('save', '1')
             }
-            //保存
-            if (value === '0') {
-                this.$emit('save', '0')
-                 this.$http
-                .post(services.addEmplyee.addEmplyee,this.formValidate)
-                .then(
-                    res => {
-                    if (res.data && res) {
-                        console.dir(res.data)
 
-                        // 进行跳转成功页面
-                        // 成功后调用服务
-                        // 给父组件传递flag标志，1为关闭当前，打开success。
-                    } else if (res.data && res.data.resultCode !== '000000') {
-                        this.$dialog.alert({ message: '服务器调用出错！' })
+        },
+        handleSubmit(formValidate){
+            this.$refs[formValidate].validate((valid) => {
+                    if (valid) {
+                         this.$emit('save', '0')
+                        this.$http
+                        .post(services.addEmplyee.addEmplyee,this.formValidate)
+                        .then(
+                            res => {
+                            if (res.data && res) {
+                                console.dir(res.data)
+                                if(res.data.resultMessage==='工号重复，请重新输入'){
+                                   this.$Message.info("工号重复，请重新输入")
+                                }
+                                // 进行跳转成功页面
+                                // 成功后调用服务
+                                // 给父组件传递flag标志，1为关闭当前，打开success。
+                            } else if (res.data && res.data.resultCode !== '000000') {
+                                this.$dialog.alert({ message: '服务器调用出错！' })
+                            }
+                            },
+                            res => {
+                            // error callback
+                            }
+                        )
+                    } else {
+                        this.$Message.error('Fail!');
                     }
-                    },
-                    res => {
-                    // error callback
-                    }
-                )
-            }
+                })
+
         },
         getPositionOption(){
             if(this.formValidate.departmentid){

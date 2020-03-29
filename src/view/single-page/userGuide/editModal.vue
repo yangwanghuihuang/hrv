@@ -1,34 +1,34 @@
 <template>
     <div>
        <Modal v-model="modal2" width="800"  @on-cancel="cancel">
-        <p slot="header" style="color:#f60;text-align:left" >
+        <!-- <p slot="header" style="color:#f60;text-align:left" >
             <Button type="primary" :loading="modal_loading" @click="del('0')">保存</Button>
 
             <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
-        </p>
+        </p> -->
         <div style="text-align:left">
-              <Form  ref="formValidate" label-position="right" :label-width="100">
+              <Form  ref="formValidate"  :model="formValidate" label-position="right" :label-width="100" :rules="ruleFormValidate">
                  <Row>
                     <Col span="12">
-                     <FormItem label="姓名：">
+                     <FormItem label="姓名："  prop="name">
                         <Input v-model="formValidate.name" placeholder="default size" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="性别：">
+                    <FormItem label="性别："  prop="gender">
                         <RadioGroup v-model="formValidate.gender">
                             <Radio label="男"></Radio>
                             <Radio label="女"></Radio>
                         </RadioGroup>
                     </FormItem>
-                    <FormItem label="出生日期：">
+                    <FormItem label="出生日期："  prop="birthday">
                         <DatePicker type="date" v-model="formValidate.birthday" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="籍贯：">
+                    <FormItem label="籍贯："  prop="nativeplace">
                     <Input v-model="formValidate.nativeplace" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="民族：">
+                    <FormItem label="民族："  prop="nationDesc">
                     <Input v-model="formValidate.nationDesc" placeholder="河北石家庄" style="width: 200px"/>
                     </FormItem>
-                    <FormItem label="手机号：">
+                    <FormItem label="手机号："  prop="phone">
                         <Input v-model="formValidate.phone" placeholder="default size" style="width: 200px"/>
                     </FormItem>
                     <FormItem label="工号：">
@@ -51,10 +51,10 @@
                     <!-- <FormItem label="工龄：">
                         <Input v-model="formValidate.workage"  placeholder="3年" style="width: 200px"/>
                     </FormItem> -->
-                    <FormItem label="入职日期：">
+                    <FormItem label="入职日期："  prop="begindate">
                         <DatePicker type="date" v-model="formValidate.begindate" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
-                    <FormItem label="转正日期：">
+                    <FormItem label="转正日期："  prop="conversiontime">
                         <DatePicker type="date" v-model="formValidate.conversiontime" placeholder="Select date" style="width: 200px"></DatePicker>
                     </FormItem>
                     <FormItem label="部门：" prop="departmentid">
@@ -66,6 +66,10 @@
                          <Select :disabled="idDisabled" v-model="formValidate.posid" style="width:200px">
                             <Option v-for="item in PositonOption" :value="item.value" :key="item.name">{{ item.name }}</Option>
                         </Select>
+                    </FormItem>
+                      <FormItem>
+                        <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                       <Button type="primary" :loading="modal_loading" @click="del('1')">返回</Button>
                     </FormItem>
                     </Col>
                 </Row>   
@@ -81,6 +85,15 @@
 import services from '../../../api/services'
 export default {
     data() {
+           const validatePhone = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('手机号不能为空'));
+            } else if (!/^1[34578]\d{9}$/.test(value)) {
+                callback('手机号格式不正确');
+            } else {
+                callback();
+            }   
+        };
         return {
             modal2: true,
             modal_loading: false,
@@ -101,6 +114,20 @@ export default {
                 posid:'',
                 departmentid:''
                 },
+             ruleFormValidate:{
+                 name:[
+                        { required: true, message: '请输入姓名', trigger: 'blur' }
+                    ],
+                 gender:{ required: true, message: '请选择性别', trigger: 'blur' },
+                 birthday:{required: true,type: 'date', message: '选择出生日期', trigger: 'blur'},
+                 nativeplace:{required: true, message: '选择籍贯', trigger: 'blur'},
+                 nationDesc:{required: true, message: '选择民族', trigger: 'blur'},
+                 phone: { required: true,validator:validatePhone,trigger:'blur'},
+                 workid:{required: true, message: '请输入员工工号', trigger: 'blur'},
+                 begindate:{required: true,type: 'date', message: '请选择开始日期', trigger: 'blur'},
+                 conversiontime:{required: true, type: 'date',message: '请选择转正日期', trigger: 'blur'},
+                //  departmentid:{required: true, message: '请选择所在部门', trigger: 'blur'}
+            }
         }
     },
     props:{
@@ -161,9 +188,11 @@ export default {
             if (value === '1') {
                 this.$emit('edit', '1')
             }
-            //保存
-            if (value === '0') {
-                this.$emit('edit', '0')
+            },
+        handleSubmit(formValidate){
+            this.$refs[formValidate].validate((valid) => {
+                    if (valid) {
+                         this.$emit('edit', '0')
                 alert("llll")
                  this.$http
                 .post(services.updateEmp.updateEmp,this.formValidate)
@@ -184,9 +213,13 @@ export default {
                     // error callback
                     }
                 )
-            }
-            },
-               getPositionOption(){
+                    } else {
+                        this.$Message.error('Fail!');
+                    }
+                })
+
+        },
+        getPositionOption(){
             if(this.formValidate.departmentid){
                  this.idDisabled=false
             }else{
