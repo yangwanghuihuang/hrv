@@ -1,34 +1,34 @@
 export default {
   namespaced: true,
   state: {
-    departOption: null
+    salaryOption: null
   },
   mutations: {
-    setDepartOption (state, data) {
+    setSalaryOption (state, data) {
       console.dir(data)
       console.dir(state)
       console.dir('1')
-      state.departOption = data
-      localStorage.setItem('departOption_sel', JSON.stringify(data))
+      state.salaryOption = data
+      localStorage.setItem('salaryOption_sel', JSON.stringify(data))
     }
   },
   getters: {
-    getDepartOption: (state) => {
+    getSalaryOption: (state) => {
       console.dir('2')
-      const cache = localStorage.getItem('departOption_sel')
+      const cache = localStorage.getItem('salaryOption_sel')
       let cacheData = null
       if (cache) {
         cacheData = JSON.parse(cache)
       }
-      if (state.departOption) {
-        return state.departOption
+      if (state.salaryOption) {
+        return state.salaryOption
       } else {
         return cacheData
       }
     }
   },
   actions: {
-    departOption (context, param) {
+    salaryOption (context, param) {
       console.dir(param)
       let tmp = []
       for (let item of param) {
@@ -38,7 +38,7 @@ export default {
         })
       }
       console.dir(tmp)
-      context.commit('setDepartOption', tmp)
+      context.commit('setSalaryOption', tmp)
     }
   }
 }

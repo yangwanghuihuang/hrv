@@ -249,10 +249,18 @@ export default [
         path: 'policy',
         name: 'policy',
         meta: {
-          title: '政策查询'
+          title: '上传文件'
         },
         component: () => import('@/view/single-page/userInfo/policy.vue')
       },
+      {
+        path: 'userPolicy',
+        name: 'userPolicy',
+        meta: {
+          title: '政策查询'
+        },
+        component: () => import('@/view/single-page/userInfo/userPolicy.vue')
+      }
     ]
   },
   {

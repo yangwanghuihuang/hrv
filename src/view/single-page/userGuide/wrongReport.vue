@@ -14,48 +14,48 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-        tableHeight: 0,
-        columns4: [
-          {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-          },
-          {
-            title: '错单文件',
-            key: 'wrongReport'
-          },
-          {
-            title: '生效时间',
-            key: 'activeTime'
-          },
-          {
-            title: '修改时间',
-            key: 'updateTime'
-          }
-        ],
-        data1: [
-             {
-            wrongReport: 'John Brown',
-            activeTime: 18,
-
-            updateTime: '2016-10-03'
-          },
-          {
-             wrongReport: 'John Brown',
-            activeTime: 1234564,
-
-            updateTime: '2016-10-03'
-          }
-        ]
+  data () {
+    return {
+      tableHeight: 0,
+      columns4: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: '错单文件',
+          key: 'wrongReport'
+        },
+        {
+          title: '生效时间',
+          key: 'activeTime'
+        },
+        {
+          title: '修改时间',
+          key: 'updateTime'
         }
-    },
-      methods: {
-      handleSelectAll (status) {
-        this.$refs.selection.selectAll(status)
-      }
+      ],
+      data1: [
+        {
+          wrongReport: 'John Brown',
+          activeTime: 18,
+
+          updateTime: '2016-10-03'
+        },
+        {
+          wrongReport: 'John Brown',
+          activeTime: 1234564,
+
+          updateTime: '2016-10-03'
+        }
+      ]
     }
+  },
+  methods: {
+    handleSelectAll (status) {
+      this.$refs.selection.selectAll(status)
+    }
+  }
 }
 </script>

@@ -19,7 +19,7 @@ export default {
     }
   },
   methods: {
-    loginToNav(value) {
+    loginToNav (value) {
       this.loginNav = value
     }
   }
@@ -27,15 +27,15 @@ export default {
 </script>
 
 <style lang="less">
-  .layout{
+.layout {
+  height: 100%;
+  width: 100%;
+  .login {
     height: 100%;
     width: 100%;
-    .login{
-      height: 100%;
-      width: 100%;
-      background-image: url("../../assets/images/loginForm.png");
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-    }
+    background-image: url("../../assets/images/loginForm.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
+}
 </style>

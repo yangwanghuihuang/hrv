@@ -2,80 +2,88 @@
   <div class="userGuide">
     <div class="search">
       <!-- <label>校对日期：</label>
-      <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker> -->
+      <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>-->
       <Button type="primary" @click="expendDetail()">出账</Button>
       <Button type="primary" @click="handleSelectAll(true)">全选</Button>
       <Button type="primary" @click="handleSelectAll(false)">重置</Button>
     </div>
     <div class="main">
-         <div class="main_page">
-            <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
-        <Page class="pageStyle" simple show-sizer :pageHeight="pageHeight" :total="dataCount" :page-size="pageSize"  @on-page-size-change="pageSizeChange"  @on-change="changepage"></Page>
+      <div class="main_page">
+        <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
+        <Page
+          class="pageStyle"
+          simple
+          show-sizer
+          :pageHeight="pageHeight"
+          :total="dataCount"
+          :page-size="pageSize"
+          @on-page-size-change="pageSizeChange"
+          @on-change="changepage"
+        ></Page>
       </div>
       <Table :height="tableHeight" border ref="selection" :columns="columns4" :data="data1"></Table>
-
     </div>
     <!-- <div class="footer">
         <Page :total="dataCount" :page-size="pageSize"  @on-change="changepage"></Page>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
 <script>
 import moniDta from '../../../api/services'
-  export default {
-    components: {},
-    data () {
-      return {
-        tableHeight: 0,
-        // 初始化信息总条数
-        dataCount: 0,
-        // 每页显示多少条
-        pageSize: 30,
-        pageIndex: 1,
-        totalPage: 0,
-        columns4: [
-          {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-          },
-          {
-            title: '出账任务',
-            key: 'name'
-          },
-          {
-            title: '结算周期',
-            key: 'age'
-          },
-          {
-            title: '开始日期',
-            key: 'address'
-          },
-           {
-            title: '截止日期',
-            key: 'address'
-          }
-        ],
-        dataTotal: [],
-        data1: []
-      }
-    },
-    mounted() {
-      this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
-        this.$http
+export default {
+  components: {},
+  data () {
+    return {
+      tableHeight: 0,
+      // 初始化信息总条数
+      dataCount: 0,
+      // 每页显示多少条
+      pageSize: 30,
+      pageIndex: 1,
+      totalPage: 0,
+      columns4: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: '出账任务',
+          key: 'name'
+        },
+        {
+          title: '结算周期',
+          key: 'age'
+        },
+        {
+          title: '开始日期',
+          key: 'address'
+        },
+        {
+          title: '截止日期',
+          key: 'address'
+        }
+      ],
+      dataTotal: [],
+      data1: []
+    }
+  },
+  mounted () {
+    this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
+    this.$http
       .post(moniDta.mock.data_list)
       .then(
         res => {
           if (res.data && res) {
-             this.dataTotal = res.data
-             this.dataCount = this.dataTotal.length
-                this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-             if (this.dataTotal.length < this.pageSize) {
-                    this.data1 = this.dataTotal
-                } else {
-                    this.data1 = this.dataTotal.slice(0, this.pageSize)
-                }
+            this.dataTotal = res.data
+            this.dataCount = this.dataTotal.length
+            this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
+            if (this.dataTotal.length < this.pageSize) {
+              this.data1 = this.dataTotal
+            } else {
+              this.data1 = this.dataTotal.slice(0, this.pageSize)
+            }
 
             // 进行跳转成功页面
             // 成功后调用服务
@@ -88,65 +96,65 @@ import moniDta from '../../../api/services'
           // error callback
         }
       )
+  },
+  methods: {
+    handleSelectAll (status) {
+      this.$refs.selection.selectAll(status)
     },
-    methods: {
-      handleSelectAll (status) {
-        this.$refs.selection.selectAll(status)
-      },
-      expendDetail() {
-          this.$router.push({ path: 'expendDetail' })
-      },
-      changepage(index) {
-        console.dir(index)
-           this.pageIndex = index
-                var _start = (index - 1) * this.pageSize
-                var _end = index * this.pageSize
-               console.dir(_start)
-               console.dir(_end)
-                this.data1 = this.dataTotal.slice(_start, _end)
-                console.dir(this.data1)
-      },
-        pageSizeChange(value) {
-        this.pageSize = value
-           this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
-      }
+    expendDetail () {
+      this.$router.push({ path: 'expendDetail' })
+    },
+    changepage (index) {
+      console.dir(index)
+      this.pageIndex = index
+      var _start = (index - 1) * this.pageSize
+      var _end = index * this.pageSize
+      console.dir(_start)
+      console.dir(_end)
+      this.data1 = this.dataTotal.slice(_start, _end)
+      console.dir(this.data1)
+    },
+    pageSizeChange (value) {
+      this.pageSize = value
+      this.totalPage = Math.ceil(this.dataTotal.length / this.pageSize)
     }
   }
+}
 </script>
 
 <style lang="less">
-  .userGuide{
-    height: 100%;
-    background-color: #fff;
-    .search{
-      height: 10%;
-      padding-left: 10px;
-      display: flex;
-      align-items: center;
-      margin:2px;
-      .ivu-btn-primary{
-        margin-left: 10px;
-      }
+.userGuide {
+  height: 100%;
+  background-color: #fff;
+  .search {
+    height: 10%;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    margin: 2px;
+    .ivu-btn-primary {
+      margin-left: 10px;
     }
-          .main{
-      padding: 10px;
+  }
+  .main {
+    padding: 10px;
 
-       .main_page{
-        height: 10%;
-        display: flex;
-        flex-direction: row;
-        .pageStyle{
-           width: auto;
-           margin-bottom: 5px;
-        }
-        .textStyle{
-          width: auto;
-          margin-left: 959px;
-          font-size: 14px;
-          height: 32px;
-          line-height: 29px;
-        }
+    .main_page {
+      height: 10%;
+      display: flex;
+      flex-direction: row;
+      .pageStyle {
+        width: auto;
+        margin-bottom: 5px;
+      }
+      .textStyle {
+        width: auto;
+        margin-left: 959px;
+        font-size: 14px;
+        height: 32px;
+        line-height: 29px;
       }
     }
   }
+}
 </style>

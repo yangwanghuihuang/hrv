@@ -5,6 +5,7 @@ import user from './module/user'
 import menu from './module/menu'
 import depart from './module/department'
 import position from './module/Position'
+import salary from './module/salary'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     user,
     menu,
     depart,
-    position
+    position,
+    salary
   }
 })

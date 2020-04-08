@@ -12,7 +12,6 @@ export default {
     },
     setSiderMenuMap (state, param) {
       state.siderMenuMap = getSiderMenuMap(param)
-   
     }
   },
   getters: {

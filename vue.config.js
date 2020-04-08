@@ -71,13 +71,13 @@ module.exports = {
   // 设为false打包时不生成.map文件
   productionSourceMap: false,
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
-	devServer: {
-      port: 8081,
-      proxy: { // 设置代理
-        '/vhr': {
-          target: 'http://127.0.0.1:80/', // 访问后台地址
-          changeOrigin: true
-        },
+  devServer: {
+    port: 8081,
+    proxy: { // 设置代理
+      '/vhrServer': {
+        target: 'http://127.0.0.1:80/', // 访问后台地址
+        changeOrigin: true
       }
+    }
   }
 }

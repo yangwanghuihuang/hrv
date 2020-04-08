@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js'
 const PBULICFUNC = {
-  showPage(type) {
+  showPage (type) {
     if (type === 'jingdong') { // 京东
       window.open('https://www.jd.com/')
     } else if (type === 'taobao') { // 淘宝
@@ -14,7 +14,7 @@ const PBULICFUNC = {
     }
   },
   // 将日期对象格式化成字符串
-  formatDate(date, fmt) {
+  formatDate (date, fmt) {
     fmt = fmt || 'yyyy-MM-dd'
     let str = fmt
     let o = {
@@ -37,13 +37,13 @@ const PBULICFUNC = {
     return str
   },
   // 将字符串转化为日期对象
-  parseDate(dateString) {
+  parseDate (dateString) {
     if (!dateString) {
       return null
     }
     return new Date(Date.parse(dateString.replace(/-/g, '/')))
   },
-  getDatetime(val) {
+  getDatetime (val) {
     if (!val) return ''
     let date = new Date(val)
     let dataVal = ''
@@ -53,7 +53,7 @@ const PBULICFUNC = {
     return dataVal
   },
 
-  getDatetimess(val) {
+  getDatetimess (val) {
     if (!val) return ''
     let date = new Date(val)
     let dataVal = ''
@@ -67,7 +67,7 @@ const PBULICFUNC = {
     return dataVal
   },
 
-  getDate() {
+  getDate () {
     let date = new Date()
     let dataVal = ''
     dataVal += date.getFullYear() + '-'
@@ -78,17 +78,17 @@ const PBULICFUNC = {
     date.getSeconds() > 9 ? dataVal += (date.getSeconds()) : dataVal += '0' + (date.getSeconds()) + ''
     return dataVal
   },
-  getMinutes() {
+  getMinutes () {
     let date = new Date()
     let dataVal = ''
     dataVal +=
 
-    date.getHours() > 9 ? dataVal += (date.getHours()) + ':' : dataVal += '0' + (date.getHours()) + ':'
+      date.getHours() > 9 ? dataVal += (date.getHours()) + ':' : dataVal += '0' + (date.getHours()) + ':'
     date.getMinutes() > 9 ? dataVal += (date.getMinutes()) : dataVal += '0' + (date.getMinutes())
 
     return dataVal
   },
-  getDateYMD() {
+  getDateYMD () {
     let date = new Date()
     let dataVal = ''
     dataVal += date.getFullYear() + '-'
@@ -97,10 +97,10 @@ const PBULICFUNC = {
     return dataVal
   },
   // 时间字符串改为时间戳
-  timestamp(val) {
+  timestamp (val) {
     return Date.parse(new Date(val))
   },
-  unique(arr, keys) {
+  unique (arr, keys) {
     const res = new Map()
     return arr.filter((item) => {
       let tmpKey = ''
@@ -353,7 +353,7 @@ const PBULICFUNC = {
     }
   },
   // 生成随机数
-  randomString(len) {
+  randomString (len) {
     len = len || 32
     let $chars = 'ABCDEFGHIJGKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
     let maxPos = $chars.length
@@ -364,7 +364,7 @@ const PBULICFUNC = {
     return pwd
   },
   // 加密  CBC
-  encryptCBC(word, iv) {
+  encryptCBC (word, iv) {
     let keyStr = 'abcdefgabcdefg12'
     let key = CryptoJS.enc.Utf8.parse(keyStr)
     let srcs = CryptoJS.enc.Utf8.parse(word)
@@ -372,7 +372,7 @@ const PBULICFUNC = {
     return encrypted.toString()
   },
   // 加密  ECB
-  encryptECB(word) {
+  encryptECB (word) {
     let keyStr = 'abcdefgabcdefg12'
     let key = CryptoJS.enc.Utf8.parse(keyStr)
     let srcs = CryptoJS.enc.Utf8.parse(word)
@@ -380,7 +380,7 @@ const PBULICFUNC = {
     return encrypted.toString()
   },
   // 解密
-  decrypt(word) {
+  decrypt (word) {
     let keyStr = 'abcdefgabcdefg12'
     let key = CryptoJS.enc.Utf8.parse(keyStr)
     let decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })

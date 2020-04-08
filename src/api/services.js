@@ -13,93 +13,109 @@ export default {
     cycleData: '/monitor/cycleData'
   },
   login: {
-    checkToken: '/vhr/api/admin/v1.0/goLogin'
+    checkToken: '/vhrServer/api/admin/v1.0/goLogin'
   },
   getValidation: {
-    getValidation:'/vhr/api/admin/v1.0/getValidate', // 获取验证码
+    getValidation: '/vhrServer/api/admin/v1.0/getValidate' // 获取验证码
   },
-  emplyeeInfo:{
-    emplyeeInfo:'/vhr/api/employee/v1.0/allEmployee0'//获取员工信息
+  emplyeeInfo: {
+    emplyeeInfo: '/vhrServer/api/employee/v1.0/allEmployee0'// 获取员工信息
   },
-  emplyeeByworkId:{
-    emplyeeByworkId:'/vhr/api/employee/v1.0/employeeById'//通过条件id获取员工信息
+  emplyeeByworkId: {
+    emplyeeByworkId: '/vhrServer/api/employee/v1.0/employeeById'// 通过条件id获取员工信息
   },
-  employeeByWorid:{
-    employeeByWorid:'/vhr/api/employee/v1.0/employeeByWorid'//通过工号查询员工信息
+  employeeByWorid: {
+    employeeByWorid: '/vhrServer/api/employee/v1.0/employeeByWorid'// 通过工号查询员工信息
   },
-  deleteById:{
-    deleteById:'/vhr/api/employee/v1.0/deleteById'//通过id删除员工信息
+  deleteById: {
+    deleteById: '/vhrServer/api/employee/v1.0/deleteById'// 通过id删除员工信息
   },
-  addEmplyee:{
-    addEmplyee:'/vhr/api/employee/v1.0/add'//添加员工信息
+  addEmplyee: {
+    addEmplyee: '/vhrServer/api/employee/v1.0/add'// 添加员工信息
   },
-  salaryInfo:{
-    salaryInfo:'/vhr/api/salary/v1.0/salaryDept'//获取薪资账套 
+  salaryInfo: {
+    salaryInfo: '/vhrServer/api/salary/v1.0/salaryDept'// 获取薪资账套
   },
-  salaryByName:{
-    salaryByName:'/vhr/api/salary/v1.0/salaryById'//编辑的时候查询账套
+  salaryByName: {
+    salaryByName: '/vhrServer/api/salary/v1.0/salaryById'// 编辑的时候查询账套
   },
-  saveSalary:{
-    saveSalary:'/vhr/api/salary/v1.0/addSalary'//新增账套
+  saveSalary: {
+    saveSalary: '/vhrServer/api/salary/v1.0/addSalary'// 新增账套
   },
-  updateSalary:{
-    updateSalary:'/vhr/api/salary/v1.0/updateSalary'//修改账套
+  updateSalary: {
+    updateSalary: '/vhrServer/api/salary/v1.0/updateSalary'// 修改账套
   },
-  deleteSalaryById:{
-    deleteSalaryById:'/vhr/api/salary/v1.0/deleteSalaryById'//删除账套
+  deleteSalaryById: {
+    deleteSalaryById: '/vhrServer/api/salary/v1.0/deleteSalaryById'// 删除账套
   },
-  emplyeeByName:{
-    emplyeeByName:'/vhr/api/employee/v1.0/employee'//通过条件名称获取员工信息
+  emplyeeByName: {
+    emplyeeByName: '/vhrServer/api/employee/v1.0/employee'// 通过条件名称获取员工信息
   },
-  updateEmp:{
-    updateEmp:'/vhr/api/employee/v1.0/update'  //修改员工信息
+  updateEmp: {
+    updateEmp: '/vhrServer/api/employee/v1.0/update' // 修改员工信息
   },
-  param:{
-    getDepart:'/vhr/api/employee/v1.0/getDepart'//获取所有部门信息
+  param: {
+    getDepart: '/vhrServer/api/employee/v1.0/getDepart'// 获取所有部门信息
   },
-  getPost:{
-    getPost:'/vhr/api/employee/v1.0/getPost'//通过部门id获取职位id
+  getPost: {
+    getPost: '/vhrServer/api/employee/v1.0/getPost'// 通过部门id获取职位id
   },
-  selsetAllPosts:{
-    selsetAllPosts:'/vhr/api/post/v1.0/selsetAllPosts'//获取岗位信息
+  selsetAllPosts: {
+    selsetAllPosts: '/vhrServer/api/post/v1.0/selsetAllPosts'// 获取岗位信息
   },
-  empSalary:{
-    empSalary:'/vhr/api/empsalary/v1.0/salaryDept'//获取员工工资账套
+  empSalary: {
+    empSalary: '/vhrServer/api/empsalary/v1.0/salaryDept'// 获取员工工资账套
   },
-  empSalaryById:{
-    empSalaryById:'/vhr/api/empsalary/v1.0/salaryEmpById'//通过账套信息查询工资账套
+  empSalaryById: {
+    empSalaryById: '/vhrServer/api/empsalary/v1.0/salaryEmpById'// 通过账套信息查询工资账套
   },
-  salaryById:{
-    salaryById:'/vhr/api/empsalary/v1.0/salaryById'//通过员工id修改员工工资账套
+  salaryById: {
+    salaryById: '/vhrServer/api/empsalary/v1.0/salaryById'// 通过员工id修改员工工资账套
   },
-  selectEmp:{
-    selectEmp:'/vhr/api/empsalary/v1.0/selectEmp'//通过部门、工龄、转正信息组合条件查询员工信息
+  selectEmp: {
+    selectEmp: '/vhrServer/api/empsalary/v1.0/selectEmp'// 通过部门、工龄、转正信息组合条件查询员工信息
   },
-  queryDepartById:{
-    queryDepartById:'/vhr/api/post/v1.0/queryDepartById'//通过部门id查询部门信息
+  queryDepartById: {
+    queryDepartById: '/vhrServer/api/post/v1.0/queryDepartById'// 通过部门id查询部门信息
   },
-  updateDeparts:{
-    updateDeparts:'/vhr/api/post/v1.0/updateDeparts'//修改部门信息
+  updateDeparts: {
+    updateDeparts: '/vhrServer/api/post/v1.0/updateDeparts'// 修改部门信息
   },
-  deleteDeparts:{
-    deleteDeparts:'/vhr/api/post/v1.0/deleteDeparts'//通过部门id删除部门信息
+  deleteDeparts: {
+    deleteDeparts: '/vhrServer/api/post/v1.0/deleteDeparts'// 通过部门id删除部门信息
   },
-  addDepartments:{
-    addDepartments:'/vhr/api/post/v1.0/addDepartments'//添加部门信息
+  addDepartments: {
+    addDepartments: '/vhrServer/api/post/v1.0/addDepartments'// 添加部门信息
   },
-  addPosts:{
-    addPosts:'/vhr/api/post/v1.0/addPosts'//添加岗位信息
+  addPosts: {
+    addPosts: '/vhrServer/api/post/v1.0/addPosts'// 添加岗位信息
   },
-  queryPostById:{
-    queryPostById:'/vhr/api/post/v1.0/queryPostById'//通过岗位id查询岗位信息
+  queryPostById: {
+    queryPostById: '/vhrServer/api/post/v1.0/queryPostById'// 通过岗位id查询岗位信息
   },
-  updatePosts:{
-    updatePosts:'/vhr/api/post/v1.0/updatePosts'//修改岗位信息
+  updatePosts: {
+    updatePosts: '/vhrServer/api/post/v1.0/updatePosts'// 修改岗位信息
   },
-  deletePosts:{
-    deletePosts:'/vhr/api/post/v1.0/deletePosts'//删除岗位信息
+  deletePosts: {
+    deletePosts: '/vhrServer/api/post/v1.0/deletePosts'// 删除岗位信息
   },
-  empSalaryByMonth:{
-    empSalaryByMonth:'/vhr/api/empSalaryByMonth/v1.0/empSalaryByMonth'//按月查询员工工资信息
+  empSalaryByMonth: {
+    empSalaryByMonth: '/vhrServer/api/empSalaryByMonth/v1.0/empSalaryByMonth'// 按月查询员工工资信息
+  },
+  upload: {
+    upload: '/vhrServer/api/file/uploadFile'
+  },
+  download: {
+    download: '/vhrServer/api/file/downFile'
+  },
+  selectAllName: {
+    selectAllName: '/vhrServer/api/file/selectAllName'
+
+  },
+  show: {
+    show: '/vhrServer/api/file/show'
+  },
+  getsalary: {
+    getsalary: '/vhrServer/api/empsalary/v1.0/salaryDept'
   }
 }
