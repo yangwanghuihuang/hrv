@@ -2,9 +2,9 @@
   <div class="savePositionModal">
     <Modal v-model="modal2" width="500" @on-cancel="cancel">
       <p slot="header" style="color:#f60;text-align:left">
-        <Button type="primary" @click="del('0')">保存</Button>
+        <Button class="btn" type="primary" @click="del('0')">保存</Button>
 
-        <Button type="primary" @click="del('1')">返回</Button>
+        <Button class="btn" type="primary" @click="del('1')">返回</Button>
       </p>
       <div style="text-align:left">
         <Form ref="formValidate" label-position="right" :label-width="100">
@@ -89,4 +89,12 @@ export default {
 </script>
 
 <style scoped lang="less">
+.btn {
+  margin-right: 10px;
+}
+.ivu-modal-header p,
+.ivu-modal-header-inner {
+  height: 32px;
+  line-height: 32px;
+}
 </style>

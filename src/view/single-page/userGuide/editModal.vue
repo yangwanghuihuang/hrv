@@ -28,6 +28,8 @@
               <FormItem label="出生日期：" prop="birthday">
                 <DatePicker
                   type="date"
+                  @on-change="formValidate.birthday=$event"
+                  format="yyyy-MM-dd"
                   v-model="formValidate.birthday"
                   placeholder="Select date"
                   style="width: 200px"
@@ -70,10 +72,13 @@
               <!-- <FormItem label="工龄：">
                         <Input v-model="formValidate.workage"  placeholder="3年" style="width: 200px"/>
               </FormItem>-->
-              <FormItem label="入职日期：" prop="begindate" disabled>
+              <FormItem label="入职日期：" prop="begindate">
                 <DatePicker
+                  disabled
                   type="date"
                   v-model="formValidate.begindate"
+                  @on-change="formValidate.begindate=$event"
+                  format="yyyy-MM-dd"
                   placeholder="Select date"
                   style="width: 200px"
                 ></DatePicker>
@@ -82,6 +87,8 @@
                 <DatePicker
                   type="date"
                   v-model="formValidate.conversiontime"
+                  format="yyyy-MM-dd"
+                  @on-change="formValidate.conversiontime=$event"
                   placeholder="Select date"
                   style="width: 200px"
                 ></DatePicker>
@@ -158,14 +165,12 @@ export default {
           { required: true, message: '请输入姓名', trigger: 'blur' }
         ],
         gender: { required: true, message: '请选择性别', trigger: 'blur' },
-        birthday: { required: true, type: 'date', message: '选择出生日期', trigger: 'blur' },
+
         nativeplace: { required: true, message: '选择籍贯', trigger: 'blur' },
         nationDesc: { required: true, message: '选择民族', trigger: 'blur' },
         phone: { required: true, validator: validatePhone, trigger: 'blur' },
-        workid: { required: true, message: '请输入员工工号', trigger: 'blur' },
-        begindate: { required: true, type: 'date', message: '请选择开始日期', trigger: 'blur' },
-        conversiontime: { required: true, type: 'date', message: '请选择转正日期', trigger: 'blur' }
-        //  departmentid:{required: true, message: '请选择所在部门', trigger: 'blur'}
+        workid: { required: true, message: '请输入员工工号', trigger: 'blur' }
+
       }
     }
   },
@@ -229,7 +234,7 @@ export default {
       this.$refs[formValidate].validate((valid) => {
         if (valid) {
           this.$emit('edit', '0')
-          alert('llll')
+          console.dir(this.formValidate.birthday)
           this.$http
             .post(services.updateEmp.updateEmp, this.formValidate)
             .then(

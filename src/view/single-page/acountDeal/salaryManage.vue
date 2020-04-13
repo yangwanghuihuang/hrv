@@ -8,21 +8,24 @@
       </Row>
     </div>
     <div class="main">
-      <div class="main_page">
-        <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
-        <Page
-          class="pageStyle"
-          simple
-          show-sizer
-          show-total
-          :pageHeight="pageHeight"
-          :total="dataCount"
-          :page-size="pageSize"
-          @on-page-size-change="pageSizeChange"
-          @on-change="changepage"
-        ></Page>
-      </div>
-
+      <Row>
+        <Col span="24">
+          <div class="main_page">
+            <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
+            <Page
+              class="pageStyle"
+              simple
+              show-sizer
+              show-total
+              :pageHeight="pageHeight"
+              :total="dataCount"
+              :page-size="pageSize"
+              @on-page-size-change="pageSizeChange"
+              @on-change="changepage"
+            ></Page>
+          </div>
+        </Col>
+      </Row>
       <Table :height="tableHeight" border ref="selection" :columns="columns4" :data="data1"></Table>
     </div>
     <edit-salary v-if="ifShow" :infoId="infoId" :infoName="infoName" @edit="edit"></edit-salary>
@@ -56,8 +59,7 @@ export default {
       tableHeight: 0,
       pageHeight: 0,
       settleCycle: '2010',
-      ifShow: false,
-      ifExist: false,
+
       // 初始化信息总条数
       dataCount: 0,
       // 每页显示多少条
@@ -341,13 +343,14 @@ export default {
       height: 10%;
       display: flex;
       flex-direction: row;
+      float: right;
       .pageStyle {
         width: auto;
         margin-bottom: 5px;
       }
       .textStyle {
         width: auto;
-        margin-left: 1145px;
+
         font-size: 14px;
         height: 32px;
         line-height: 29px;

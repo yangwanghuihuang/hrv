@@ -41,19 +41,24 @@
       </div>
     </div>
     <div class="main">
-      <div class="main_page">
-        <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
-        <Page
-          class="pageStyle"
-          simple
-          show-sizer
-          show-total
-          :total="dataCount"
-          :page-size="pageSize"
-          @on-page-size-change="pageSizeChange"
-          @on-change="changepage"
-        ></Page>
-      </div>
+      <Row>
+        <Col span="24">
+          <div class="main_page">
+            <span class="textStyle">第{{pageIndex}}页/共{{totalPage}}页 共{{dataCount}}条</span>
+            <Page
+              class="pageStyle"
+              simple
+              show-sizer
+              show-total
+              :pageHeight="pageHeight"
+              :total="dataCount"
+              :page-size="pageSize"
+              @on-page-size-change="pageSizeChange"
+              @on-change="changepage"
+            ></Page>
+          </div>
+        </Col>
+      </Row>
 
       <Table :height="tableHeight" border ref="selection" :columns="columns4" :data="data1">
         <template slot-scope="{ row, index }" slot="action">
@@ -322,13 +327,13 @@ export default {
       height: 10%;
       display: flex;
       flex-direction: row;
+      float: right;
       .pageStyle {
         width: auto;
         margin-bottom: 5px;
       }
       .textStyle {
         width: auto;
-        margin-left: 1140px;
         font-size: 14px;
         height: 32px;
         line-height: 29px;

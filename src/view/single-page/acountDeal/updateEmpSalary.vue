@@ -123,8 +123,11 @@ export default {
               if (res.data && res && res.data.resultCode === '000000') {
                 console.dir(res.data.result)
                 this.$emit('edit', '1')
-              } else if (res.data && res.data.resultCode !== '000000') {
-                // this.$dialog.alert({ message: '服务器调用出错！' })
+              } else if (res.data && res.data.resultMessage === '该月员工工资已结算，不可重复') {
+                this.$Message.warning({
+                  content: '该月员工工资已结算，不可重复!',
+                  duration: 5
+                })
               }
             },
             res => {

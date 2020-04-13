@@ -229,6 +229,7 @@ export default {
     savePos (value) {
       if (value) {
         this.ifSavePos = false
+        location.reload()
       }
     },
     add () {
@@ -245,6 +246,7 @@ export default {
     },
     save (value) {
       this.ifSave = false
+      location.reload()
     },
     remove (index) {
       this.infoId = this.data1[index].id
@@ -291,9 +293,9 @@ export default {
               this.totalPage = Math.ceil(this.dataCount / this.pageSize)
               //   location.reload()
             }
-            if (res.data && res && res.data.resultMessage === '请先删除部门下的岗位信息') {
+            if (res.data && res && res.data.resultMessage === '该岗位正在被使用，请检查后再删除') {
               this.$Message.warning({
-                content: '请先删除该部门下的岗位信息!',
+                content: '该岗位正在被使用，请检查后再删除!',
                 duration: 5
               })
             }
@@ -317,10 +319,12 @@ export default {
     },
     editPos (value) {
       this.ifEditPos = false
+      location.reload()
     },
     editBack (value) {
       if (value) {
         this.ifEdit = false
+        location.reload()
       }
     },
     changepage (index) {

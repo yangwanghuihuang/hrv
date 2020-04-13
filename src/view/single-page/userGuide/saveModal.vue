@@ -30,6 +30,8 @@
                   type="date"
                   v-model="formValidate.birthday"
                   placeholder="Select date"
+                  @on-change="formValidate.birthday=$event"
+                  format="yyyy-MM-dd"
                   style="width: 200px"
                 ></DatePicker>
               </FormItem>
@@ -69,9 +71,11 @@
               <FormItem label="入职日期：" prop="begindate">
                 <DatePicker
                   type="date"
+                  @on-change="formValidate.begindate=$event"
                   v-model="formValidate.begindate"
                   placeholder="Select date  必填写"
                   style="width: 200px"
+                  format="yyyy-MM-dd"
                 ></DatePicker>
               </FormItem>
               <FormItem label="转正日期：" prop="conversiontime">
@@ -80,6 +84,8 @@
                   v-model="formValidate.conversiontime"
                   placeholder="Select date"
                   style="width: 200px"
+                  format="yyyy-MM-dd"
+                  @on-change="formValidate.conversiontime=$event"
                 ></DatePicker>
               </FormItem>
               <FormItem label="部门：" prop="departmentid">
@@ -168,14 +174,12 @@ export default {
           { required: true, message: '请输入姓名', trigger: 'blur' }
         ],
         gender: { required: true, message: '请选择性别', trigger: 'blur' },
-        birthday: { required: true, type: 'date', message: '选择出生日期', trigger: 'blur' },
+
         nativeplace: { required: true, message: '选择籍贯', trigger: 'blur' },
         nationDesc: { required: true, message: '选择民族', trigger: 'blur' },
         phone: { required: true, validator: validatePhone, trigger: 'blur' },
-        workid: { required: true, message: '请输入员工工号', trigger: 'blur' },
-        begindate: { required: true, type: 'date', message: '请选择开始日期', trigger: 'blur' },
-        conversiontime: { required: true, type: 'date', message: '请选择转正日期', trigger: 'blur' }
-        //  departmentid:{required: true, message: '请选择所在部门', trigger: 'blur'}
+        workid: { required: true, message: '请输入员工工号', trigger: 'blur' }
+
       }
     }
   },
@@ -207,6 +211,7 @@ export default {
     handleSubmit (formValidate) {
       this.$refs[formValidate].validate((valid) => {
         if (valid) {
+          alert('tianjia')
           this.$emit('save', '0')
           this.$http
             .post(services.addEmplyee.addEmplyee, this.formValidate)
