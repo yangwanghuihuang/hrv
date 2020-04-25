@@ -112,8 +112,9 @@
               </FormItem>
               <FormItem label="在职状态：">
                 <Select v-model="formValidate.workstate" placeholder="请选择--" style="width:200px">
-                  <Option value="1" selected>在职</Option>
-                  <Option value="2">离职</Option>
+                  <Option value="1" selected>试用期</Option>
+                  <Option value="2">正式员工</Option>
+                  <Option value="3">离职</Option>
                 </Select>
               </FormItem>
               <FormItem label="权限：">
@@ -211,26 +212,21 @@ export default {
     handleSubmit (formValidate) {
       this.$refs[formValidate].validate((valid) => {
         if (valid) {
-          alert('tianjia')
-          this.$emit('save', '0')
           this.$http
             .post(services.addEmplyee.addEmplyee, this.formValidate)
             .then(
               res => {
                 if (res.data && res) {
-                  console.dir(res.data)
                   if (res.data.resultMessage === '工号重复，请重新输入') {
                     this.$Message.info('工号重复，请重新输入')
                   }
-                  // 进行跳转成功页面
-                  // 成功后调用服务
-                  // 给父组件传递flag标志，1为关闭当前，打开success。
+                  this.$emit('save', '0')
                 } else if (res.data && res.data.resultCode !== '000000') {
                   this.$dialog.alert({ message: '服务器调用出错！' })
                 }
               },
               res => {
-                // error callback
+
               }
             )
         } else {

@@ -202,7 +202,7 @@ export default {
       pageSize: 10,
       id: this.infoId
     }
-    console.dir(tmp)
+
     this.$http
       .post(services.emplyeeByworkId.emplyeeByworkId, tmp)
       .then(
@@ -233,16 +233,12 @@ export default {
     handleSubmit (formValidate) {
       this.$refs[formValidate].validate((valid) => {
         if (valid) {
-          this.$emit('edit', '0')
-          console.dir(this.formValidate.birthday)
           this.$http
             .post(services.updateEmp.updateEmp, this.formValidate)
             .then(
               res => {
-                alert('llllmmm')
                 if (res.data && res) {
-                  console.dir(res.data.result)
-
+                  this.$emit('edit', '0')
                   // 进行跳转成功页面
                   // 成功后调用服务
                   // 给父组件传递flag标志，1为关闭当前，打开success。

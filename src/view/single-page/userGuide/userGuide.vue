@@ -53,6 +53,7 @@
     <div class="footer"></div>
     <add-emplyee v-if="ifShow" @save="save"></add-emplyee>
     <edit-employee v-if="ifExist" :infoId="infoId" @edit="edit"></edit-employee>
+    <notice-modal v-if="ifNotice" @notice="notice"></notice-modal>
   </div>
 </template>
 
@@ -61,14 +62,17 @@ import services from '../../../api/services'
 import { export2Excel } from '../../../components/common/js/util'
 import addEmployee from './saveModal'
 import editEmployee from './editModal'
+import noticeModal from './noticeModal'
 export default {
   components: {
     'add-emplyee': addEmployee,
-    'edit-employee': editEmployee
+    'edit-employee': editEmployee,
+    'notice-modal': noticeModal
   },
   data () {
     return {
       ifShow: false,
+      ifNotice: true,
       name: '',
       pageIndex: 1,
       totalPage: 0,
@@ -222,57 +226,38 @@ export default {
   },
   mounted () {
     this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
-    this.$http
-      .post(services.emplyeeInfo.emplyeeInfo)
-      .then(
-        res => {
-          // if (res.data && res) {
-          //    this.dataTotal = res.data
-          //    this.dataCount = this.dataTotal.result.result.length
-          //    this.totalPage = Math.ceil(this.dataTotal.result.result.length / this.pageSize)
-
-          //    if (this.dataTotal.result.result.length < this.pageSize) {
-          //           this.data1 = this.dataTotal.result.result
-
-          //       } else {
-          //           this.data1 = this.dataTotal.result.result.slice(0, this.pageSize)
-          //       }
-
-          //   // 进行跳转成功页面
-          //   // 成功后调用服务
-          //   // 给父组件传递flag标志，1为关闭当前，打开success。
-
-          // }
-          if (res.data && res) {
-            console.dir(res.data.result)
-            this.dataTotal = res.data
-            this.dataCount = this.dataTotal.result.length
-            this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-
-            if (this.dataTotal.result.length < this.pageSize) {
-              this.data1 = this.dataTotal.result
-            } else {
-              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
-            }
-          } else if (res.data && res.data.resultCode !== '000000') {
-            this.$dialog.alert({ message: '服务器调用出错！' })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
+    initData () {
+      this.$http
+        .post(services.emplyeeInfo.emplyeeInfo)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data1 = this.dataTotal.result
+              } else {
+                this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$dialog.alert({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+
+          }
+        )
+    },
     show (index) {
       this.infoId = this.data1[index].id
       console.dir(this.infoId)
       this.ifExist = true
-      // this.$Modal.info({
-      //     title: '员工信息',
-
-      //     content: `Name：${this.data1[index].address}<br>Age：${this.data1[index].workId}<br>Address：${this.data1[index].address}`
-      // })
     },
     remove (index) {
       this.infoId = this.data1[index].id
@@ -288,7 +273,6 @@ export default {
               this.data1.splice(index, 1)
               this.dataCount--
               this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-              //   location.reload()
             } else if (res.data && res.data.resultCode !== '000000') {
               this.$dialog.alert({ message: '服务器调用出错！' })
             }
@@ -304,13 +288,15 @@ export default {
     save (value) {
       if (value) {
         this.ifShow = false
-        location.reload()
+        this.initData()
+        console.dir(this.data1)
       }
     },
     edit (value) {
       if (value) {
         this.ifExist = false
-        location.reload()
+        this.initData()
+        console.dir(this.data1)
       }
     },
     goCycleData () {
@@ -364,6 +350,9 @@ export default {
             // error callback
           }
         )
+    },
+    notice () {
+      this.ifNotice = false
     }
 
   }
