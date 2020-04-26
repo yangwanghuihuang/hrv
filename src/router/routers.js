@@ -105,7 +105,7 @@ export default [
         path: 'employSalary',
         name: 'employSalary',
         meta: {
-          title: '结算周期'
+          title: '员工工资'
         },
         component: () => import('@/view/single-page/acountDeal/employSalary.vue')
       },
@@ -205,14 +205,7 @@ export default [
         },
         component: () => import('@/view/single-page/settleReport/total2detailCompare.vue')
       },
-      {
-        path: 'compareResult',
-        name: 'compareResult',
-        meta: {
-          title: '校对明细'
-        },
-        component: () => import('@/view/single-page/settleReport/compareResult.vue')
-      },
+
       {
         path: 'divideReport',
         name: 'divideReport',

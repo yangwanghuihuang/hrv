@@ -78,7 +78,7 @@
                   format="yyyy-MM-dd"
                 ></DatePicker>
               </FormItem>
-              <FormItem label="转正日期：" prop="conversiontime">
+              <!-- <FormItem label="转正日期：" prop="conversiontime">
                 <DatePicker
                   type="date"
                   v-model="formValidate.conversiontime"
@@ -87,7 +87,7 @@
                   format="yyyy-MM-dd"
                   @on-change="formValidate.conversiontime=$event"
                 ></DatePicker>
-              </FormItem>
+              </FormItem>-->
               <FormItem label="部门：" prop="departmentid">
                 <Select
                   v-model="formValidate.departmentid"
@@ -163,7 +163,7 @@ export default {
         tiptopdegree: '1',
         workage: '',
         daterange: '',
-        conversiontime: '',
+        // conversiontime: '',
         begindate: '',
         posid: '',
         departmentid: '1',

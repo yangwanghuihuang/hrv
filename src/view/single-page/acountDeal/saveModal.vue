@@ -16,10 +16,10 @@
         >
           <Row>
             <Col span="12">
-              <FormItem label="账套名称：" prop="name">
+              <FormItem label="账套名称" prop="name">
                 <Input v-model="formValidate.name" placeholder="1000" style="width: 200px" />
               </FormItem>
-              <FormItem label="启用时间：" prop="createdate">
+              <FormItem label="启用时间" prop="createdate">
                 <!-- <Input v-model="formValidate.createDate" placeholder="1000" style="width: 200px"/> -->
                 <DatePicker
                   type="date"
@@ -28,44 +28,71 @@
                   style="width: 200px"
                 ></DatePicker>
               </FormItem>
-              <FormItem label="基本工资：" prop="basicsalary">
+              <FormItem label="基本工资" prop="basicsalary">
                 <Input v-model="formValidate.basicsalary" placeholder="1000" style="width: 200px" />
               </FormItem>
-              <FormItem label="交通补助：" prop="trafficsalary">
+              <FormItem label="交通补助" prop="trafficsalary">
                 <Input
                   v-model="formValidate.trafficsalary"
                   placeholder="1000"
                   style="width: 200px"
                 />
               </FormItem>
-              <FormItem label="午餐补助：" prop="lunchsalary">
+              <FormItem label="午餐补助" prop="lunchsalary">
                 <Input v-model="formValidate.lunchsalary" placeholder="1000" style="width: 200px" />
               </FormItem>
-              <FormItem label="奖金：" prop="bonus">
+              <FormItem label="奖金" prop="bonus">
                 <Input v-model="formValidate.bonus" placeholder="89785" style="width: 200px" />
+              </FormItem>
+              <FormItem label="养老金比率" prop="pensionper">
+                <Input v-model="formValidate.pensionper" placeholder="89785" style="width: 200px" />
+              </FormItem>
+              <FormItem label="养老金基数" prop="pensionbase">
+                <Input v-model="formValidate.pensionbase" placeholder="89785" style="width: 200px" />
+              </FormItem>
+              <FormItem label="医疗保险比率" prop="medicalper">
+                <Input v-model="formValidate.medicalper" placeholder="89785" style="width: 200px" />
+              </FormItem>
+              <FormItem label="医疗保险基数" prop="medicalbase">
+                <Input v-model="formValidate.medicalbase" placeholder="89785" style="width: 200px" />
               </FormItem>
             </Col>
             <Col span="12">
-              <FormItem label="养老金比率：" prop="pensionper">
-                <Input v-model="formValidate.pensionper" placeholder="89785" style="width: 200px" />
+              <FormItem label="工伤保险比率" prop="injuryper">
+                <Input v-model="formValidate.injuryper" placeholder="89785" style="width: 200px" />
               </FormItem>
-              <FormItem label="养老金比基数" prop="pensionbase">
-                <Input v-model="formValidate.pensionbase" placeholder="89785" style="width: 200px" />
+              <FormItem label="工伤保险基数" prop="injurybase">
+                <Input v-model="formValidate.injurybase" placeholder="89785" style="width: 200px" />
               </FormItem>
-              <FormItem label="医疗保险比率：" prop="medicalper">
-                <Input v-model="formValidate.medicalper" placeholder="89785" style="width: 200px" />
+              <FormItem label="失业保险比率" prop="unemploymentper">
+                <Input
+                  v-model="formValidate.unemploymentper"
+                  placeholder="89785"
+                  style="width: 200px"
+                />
               </FormItem>
-              <FormItem label="医疗保险基数：" prop="medicalbase">
-                <Input v-model="formValidate.medicalbase" placeholder="89785" style="width: 200px" />
+              <FormItem label="失业保险基数" prop="unemploymentbase">
+                <Input
+                  v-model="formValidate.unemploymentbase"
+                  placeholder="89785"
+                  style="width: 200px"
+                />
               </FormItem>
-              <FormItem label="公积金比率：" prop="accumulationfundper">
+              <FormItem label="生育保险比率" prop="birthper">
+                <Input v-model="formValidate.birthper" placeholder="89785" style="width: 200px" />
+              </FormItem>
+              <FormItem label="生育保险基数" prop="birthbase">
+                <Input v-model="formValidate.birthbase" placeholder="89785" style="width: 200px" />
+              </FormItem>
+
+              <FormItem label="公积金比率" prop="accumulationfundper">
                 <Input
                   v-model="formValidate.accumulationfundper"
                   placeholder="89785"
                   style="width: 200px"
                 />
               </FormItem>
-              <FormItem label="公积金基数：" prop="accumulationfundbase">
+              <FormItem label="公积金基数" prop="accumulationfundbase">
                 <Input
                   v-model="formValidate.accumulationfundbase"
                   placeholder="89785"
@@ -104,7 +131,13 @@ export default {
         medicalper: '',
         medicalbase: '',
         accumulationfundper: '',
-        accumulationfundbase: ''
+        accumulationfundbase: '',
+        injurybase: '',
+        injuryper: '',
+        unemploymentbase: '',
+        unemploymentper: '',
+        birthper: '',
+        birthbase: ''
       },
       ruleFormValidate: {
         name: { required: true, message: '请输入账套名称', trigger: 'blur' },
@@ -132,13 +165,8 @@ export default {
             .post(services.saveSalary.saveSalary, this.formValidate)
             .then(
               res => {
-                this.$emit('save', '0')
                 if (res.data && res) {
-                  console.dir(res.data.result)
-
-                  // 进行跳转成功页面
-                  // 成功后调用服务
-                  // 给父组件传递flag标志，1为关闭当前，打开success。
+                  this.$emit('save', '0')
                 } else if (res.data && res.data.resultCode !== '000000') {
                   this.$dialog.alert({ message: '服务器调用出错！' })
                 }

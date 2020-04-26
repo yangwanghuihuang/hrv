@@ -201,35 +201,63 @@ export default {
   watch: {},
   mounted () {
     this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
-    this.$http
-      .post(services.param.getDepart)
-      .then(
-        res => {
-          if (res.data && res) {
-            console.dir(res.data.result)
-            this.dataTotal = res.data
-            this.dataCount = this.dataTotal.result.length
-            this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-
-            if (this.dataTotal.result.length < this.pageSize) {
-              this.data1 = this.dataTotal.result
-            } else {
-              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
-            }
-          } else if (res.data && res.data.resultCode !== '000000') {
-            this.$dialog.alert({ message: '服务器调用出错！' })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
+    initData () {
+      this.$http
+        .post(services.param.getDepart)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data1 = this.dataTotal.result
+              } else {
+                this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$dialog.alert({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+            // error callback
+          }
+        )
+    },
+    initPosData () {
+      this.$http
+        .post(services.selsetAllPosts.selsetAllPosts)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data2 = this.dataTotal.result
+              } else {
+                this.data2 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$dialog.alert({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+            // error callback
+          }
+        )
+    },
     savePos (value) {
       if (value) {
         this.ifSavePos = false
-        location.reload()
+        this.initPosData()
       }
     },
     add () {
@@ -246,7 +274,7 @@ export default {
     },
     save (value) {
       this.ifSave = false
-      location.reload()
+      this.initData()
     },
     remove (index) {
       this.infoId = this.data1[index].id
@@ -261,7 +289,6 @@ export default {
               this.data1.splice(index, 1)
               this.dataCount--
               this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-              //   location.reload()
             }
             if (res.data && res && res.data.resultMessage === '请先删除部门下的岗位信息') {
               this.$Message.warning({
@@ -291,7 +318,6 @@ export default {
               this.data2.splice(index, 1)
               this.dataCount--
               this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-              //   location.reload()
             }
             if (res.data && res && res.data.resultMessage === '该岗位正在被使用，请检查后再删除') {
               this.$Message.warning({
@@ -319,12 +345,12 @@ export default {
     },
     editPos (value) {
       this.ifEditPos = false
-      location.reload()
+      this.initPosData()
     },
     editBack (value) {
       if (value) {
         this.ifEdit = false
-        location.reload()
+        this.initData()
       }
     },
     changepage (index) {
@@ -344,35 +370,15 @@ export default {
     toPost (value) {
       if (value === '1') {
         // 访问后台岗位信息，展示到页面
-        location.reload()
+        this.ifShow = true
+        this.ifExist = false
+        this.initData()
       }
       if (value === '2') {
         // 访问后台部门信息
         this.ifShow = false
         this.ifExist = true
-        this.$http
-          .post(services.selsetAllPosts.selsetAllPosts)
-          .then(
-            res => {
-              if (res.data && res) {
-                console.dir(res.data.result)
-                this.dataTotal = res.data
-                this.dataCount = this.dataTotal.result.length
-                this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-
-                if (this.dataTotal.result.length < this.pageSize) {
-                  this.data2 = this.dataTotal.result
-                } else {
-                  this.data2 = this.dataTotal.result.slice(0, this.pageSize)
-                }
-              } else if (res.data && res.data.resultCode !== '000000') {
-                this.$dialog.alert({ message: '服务器调用出错！' })
-              }
-            },
-            res => {
-              // error callback
-            }
-          )
+        this.initPosData()
       }
     }
   }

@@ -1,8 +1,9 @@
 <template>
   <section class="noticeModal">
-    <Modal v-model="modal2" :title="title" width="800" @on-cancel="cancel">
-      <h5>公告标题</h5>
-      <p>123456789455612312313245647897314654678943132134654657998</p>
+    <Modal v-model="modal2" :title="title" width="500" @on-cancel="cancel">
+      <h5>公告标题1</h5>
+      <p>本系统完成于2020-04-25</p>
+      <div slot="footer"></div>
     </Modal>
   </section>
 </template>

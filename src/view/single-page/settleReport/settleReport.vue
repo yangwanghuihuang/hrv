@@ -112,11 +112,7 @@ export default {
       // 每页显示多少条
       pageSize: 10,
       columns4: [
-        {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
+
         {
           title: '编号',
           key: 'id',
@@ -259,7 +255,7 @@ export default {
       }))
     },
     export_excel () {
-      export2Excel(this.columns4, this.data1)
+      export2Excel(this.columns4, this.data1, '综合信息列表')
     },
     handleSubmit () {
       console.dir(this.formValidate.conversiontime)

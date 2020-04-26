@@ -64,13 +64,12 @@ export default {
       }
       // 保存
       if (value === '0') {
-        this.$emit('savePos', '0')
         this.$http
           .post(services.addPosts.addPosts, this.formValidate)
           .then(
             res => {
               if (res.data && res) {
-                console.dir(res.data.result)
+                this.$emit('savePos', '0')
               } else if (res.data && res.data.resultCode !== '000000') {
                 this.$message.warn({ message: '服务器调用出错！' })
               }

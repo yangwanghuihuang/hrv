@@ -149,6 +149,60 @@ export default {
           ]
         },
         {
+          title: '失业保险',
+          align: 'center',
+          children: [
+            {
+              title: '失业保险比率',
+              key: 'unemploymentper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '失业保险基数',
+              key: 'unemploymentbase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
+          title: '生育保险',
+          align: 'center',
+          children: [
+            {
+              title: '生育保险比率',
+              key: 'birthper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '生育保险基数',
+              key: 'birthbase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
+          title: '工伤保险',
+          align: 'center',
+          children: [
+            {
+              title: '工伤保险比率',
+              key: 'injuryper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '工伤保险基数',
+              key: 'injurybase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
           title: '公积金',
           align: 'center',
           children: [
@@ -215,35 +269,34 @@ export default {
   },
   mounted () {
     this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
-    let tmp = {
-      pageNum: 1,
-      pageSize: 10
-    }
-    this.$http
-      .post(services.salaryInfo.salaryInfo)
-      .then(
-        res => {
-          if (res.data && res) {
-            console.dir(res.data.result)
-            this.dataTotal = res.data
-            this.dataCount = this.dataTotal.result.length
-            this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-
-            if (this.dataTotal.result.length < this.pageSize) {
-              this.data1 = this.dataTotal.result
-            } else {
-              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
-            }
-          } else if (res.data && res.data.resultCode !== '000000') {
-            this.$dialog.alert({ message: '服务器调用出错！' })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
+    initData () {
+      this.$http
+        .post(services.salaryInfo.salaryInfo)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data1 = this.dataTotal.result
+              } else {
+                this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$dialog.alert({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+            // error callback
+          }
+        )
+    },
     show (index) {
       this.infoId = this.data1[index].id
       this.infoName = this.data1[index].name
@@ -264,7 +317,7 @@ export default {
               this.data1.splice(index, 1)
               this.dataCount--
               this.totalPage = Math.ceil(this.dataCount / this.pageSize)
-              location.reload()
+              this.initData()
             } else if (res.data && res.data.resultCode === '000000' && res.data.resultMessage === '请先删除与之关联的员工信息') {
               this.$Message.warning({
                 content: '请先删除与之关联的员工信息!',
@@ -283,15 +336,14 @@ export default {
     save (value) {
       if (value) {
         this.ifExist = false
-        location.reload()
+        this.initData()
       }
     },
     edit (value) {
-      console.dir(value)
       if (value) {
-        console.dir(value)
         this.ifShow = false
-        location.reload()
+        console.dir(111)
+        this.initData()
       }
     },
     goCycleData () {

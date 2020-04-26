@@ -88,11 +88,6 @@ export default {
       pageSize: 10,
       columns4: [
         {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
-        {
           title: '编号',
           key: 'id',
           width: 100,
@@ -321,7 +316,7 @@ export default {
       this.totalPage = Math.ceil(this.datacount / this.pageSize)
     },
     export_excel () {
-      export2Excel(this.columns4, this.data1)
+      export2Excel(this.columns4, this.data1, '员工资料列表')
     },
     selectByName (value) {
       let tmp = {

@@ -1,5 +1,12 @@
 <template>
-  <div class="settle">
+  <div class="employeeSalary">
+    <div class="search">
+      <Row>
+        <Col span="3">
+          <Button type="primary" @click="export_excel()">导出excel</Button>
+        </Col>
+      </Row>
+    </div>
     <div class="main">
       <Row>
         <Col span="24">
@@ -10,7 +17,6 @@
               simple
               show-sizer
               show-total
-              :pageHeight="pageHeight"
               :total="dataCount"
               :page-size="pageSize"
               @on-page-size-change="pageSizeChange"
@@ -31,6 +37,7 @@
 // import updateConfirm from './updateDealModal.vue'
 import updateEmp from './updateEmpSalary'
 import services from '../../../api/services'
+import { export2Excel } from '../../../components/common/js/util'
 export default {
   components: {
 
@@ -53,11 +60,6 @@ export default {
       pageIndex: 1,
       totalPage: 0,
       columns4: [
-        {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
         {
           title: '编号',
           key: 'empId',
@@ -125,36 +127,91 @@ export default {
           resizable: true
         },
         {
-          title: '养老金',
+          title: '养老保险',
           align: 'center',
           children: [
             {
-              title: '比率',
+              title: '养老保险比率',
               key: 'pensionper',
               align: 'center',
               width: 100
             },
             {
-              title: '基数',
+              title: '养老保险基数',
               key: 'pensionbase',
               align: 'center',
               width: 100
             }
           ]
         },
+
         {
           title: '医疗保险',
           align: 'center',
           children: [
             {
-              title: '比率',
+              title: '医疗保险比率',
               key: 'medicalper',
               align: 'center',
               width: 100
             },
             {
-              title: '基数',
+              title: '医疗保险基数',
               key: 'medicalbase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
+          title: '失业保险',
+          align: 'center',
+          children: [
+            {
+              title: '失业保险比率',
+              key: 'unemploymentper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '失业保险基数',
+              key: 'unemploymentbase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
+          title: '生育保险',
+          align: 'center',
+          children: [
+            {
+              title: '生育保险比率',
+              key: 'birthper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '生育保险基数',
+              key: 'birthbase',
+              align: 'center',
+              width: 100
+            }
+          ]
+        },
+        {
+          title: '工伤保险',
+          align: 'center',
+          children: [
+            {
+              title: '工伤保险比率',
+              key: 'injuryper',
+              align: 'center',
+              width: 100
+            },
+            {
+              title: '工伤保险基数',
+              key: 'injurybase',
               align: 'center',
               width: 100
             }
@@ -165,18 +222,19 @@ export default {
           align: 'center',
           children: [
             {
-              title: '比率',
+              title: '公积金比率',
               key: 'accumulationfundper',
               align: 'center',
               width: 100
             },
             {
-              title: '基数',
+              title: '公积金基数',
               key: 'accumulationfundbase',
               align: 'center',
               width: 100
             }
-          ]        },
+          ]
+        },
         {
           title: '实际工资',
           key: 'allsalary',
@@ -255,6 +313,10 @@ export default {
         location.reload()
       }
     },
+    export_excel () {
+      console.dir(this.data1)
+      export2Excel(this.columns4, this.data1, '员工工资列表')
+    },
     changepage (index) {
       console.dir(index)
       this.pageIndex = index
@@ -273,11 +335,11 @@ export default {
 }
 </script>
 <style lang="less" scope>
-.settle {
+.employeeSalary {
   height: 100%;
   background-color: #fff;
   .search {
-    height: 26%;
+    height: 10%;
     padding-left: 10px;
     text-align: left;
     margin: 2px;
