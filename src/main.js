@@ -14,13 +14,14 @@ import './index.less'
 import '@/assets/icons/iconfont.css'
 import { HttpPlugin } from '../src/libs/http'
 import pbulicFunc from './assets/conf/publicFunc.js'
-
-import 'handsontable/dist/handsontable.full.css';
+import formValidation from './components/common/formValidation'
+import 'handsontable/dist/handsontable.full.css'
 // import Print from 'vue-print-nb'
 import Print from './plugin/print'
 Vue.use(ViewUI)
 Vue.use(HttpPlugin)
 Vue.use(Print)
+Vue.prototype.formValidation = formValidation// input校验规则
 require('./api/index.js')
 /**
  * @description 注册admin内置插件
@@ -45,7 +46,7 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 }
 /* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */
 if (typeof Array.find === 'undefined') {
-  Array.prototype.find = function(fn) {
+  Array.prototype.find = function (fn) {
     for (let i in this) {
       if (fn(this[i], i, this) === true) {
         return this[i]

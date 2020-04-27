@@ -117,5 +117,20 @@ export default {
   },
   getsalary: {
     getsalary: '/vhrServer/api/empsalary/v1.0/salaryDept'
+  },
+  addAnnouncement: {
+    addAnnouncement: '/vhrServer/api/announcement/v1.0/add'
+  },
+  allAnnouncement: {
+    allAnnouncement: '/vhrServer/api/announcement/v1.0/allAnnouncements'
+  },
+  updateAnnouncement: {
+    updateAnnouncement: '/vhrServer/api/announcement/v1.0/update'
+  },
+  deleteAnnoncementById: {
+    deleteAnnoncementById: '/vhrServer/api/announcement/v1.0/deleteById'
+  },
+  new: {
+    new: '/vhrServer/api/announcement/v1.0/newAnnouncement'
   }
 }

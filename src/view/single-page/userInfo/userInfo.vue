@@ -82,6 +82,7 @@
         </Col>
       </Row>
     </Form>
+    <notice-modal v-if="ifNotice" @notice="notice"></notice-modal>
   </section>
 </template>
 
@@ -89,11 +90,13 @@
 import services from '../../../api/services'
 import { validatePhone } from '../../../libs/util'
 // import { getBreadCrumbList, getSiderMenuMap } from '@/libs/util'
+import noticeModal from '../userGuide/noticeModal'
 export default {
   name: 'userInfo',
   data () {
     return {
       userWorkId: '',
+      ifNotice: true,
       formValidate: {
         name: '',
         nativeplace: '',
@@ -116,7 +119,9 @@ export default {
       }
     }
   },
-  components: {},
+  components: {
+    'notice-modal': noticeModal
+  },
   watch: {},
   mounted () {
     console.dir(localStorage.getItem('userWorkid'))
@@ -166,6 +171,9 @@ export default {
             // error callback
           }
         )
+    },
+    notice () {
+      this.ifNotice = false
     }
   }
 }

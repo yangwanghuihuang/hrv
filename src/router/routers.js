@@ -62,6 +62,14 @@ export default [
         component: () => import('@/view/single-page/acountDeal/salaryManage.vue')
       },
       {
+        path: 'announcement',
+        name: 'announcement',
+        meta: {
+          title: '公告管理'
+        },
+        component: () => import('@/view/single-page/announcement/announcement.vue')
+      },
+      {
         path: 'wrongReport',
         name: 'wrongReport',
         meta: {
