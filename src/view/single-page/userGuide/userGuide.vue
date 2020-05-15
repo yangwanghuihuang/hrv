@@ -85,7 +85,7 @@ export default {
       // 初始化信息总条数
       dataCount: 0,
       // 每页显示多少条
-      pageSize: 10,
+      pageSize: 5,
       columns4: [
         {
           title: '编号',

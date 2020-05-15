@@ -101,14 +101,7 @@ export default [
         },
         component: () => import('@/view/single-page/userGuide/wrongReportConfig.vue')
       },
-      {
-        path: 'statiticalConfig',
-        name: 'statiticalConfig',
-        meta: {
-          title: '统计配置'
-        },
-        component: () => import('@/view/single-page/userGuide/statiticalConfig.vue')
-      },
+
       {
         path: 'employSalary',
         name: 'employSalary',

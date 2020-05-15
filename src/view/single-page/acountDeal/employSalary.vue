@@ -273,35 +273,38 @@ export default {
   },
   mounted () {
     this.tableHeight = (document.documentElement.clientHeight * (7 / 10))
-    this.$http
-      .post(services.empSalary.empSalary)
-      .then(
-        res => {
-          if (res.data && res) {
-            console.dir(res.data.result)
-            this.dataTotal = res.data
-            this.dataCount = this.dataTotal.result.length
-            this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-
-            if (this.dataTotal.result.length < this.pageSize) {
-              this.data1 = this.dataTotal.result
-            } else {
-              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
-            }
-
-            // 进行跳转成功页面
-            // 成功后调用服务
-            // 给父组件传递flag标志，1为关闭当前，打开success。
-          } else if (res.data && res.data.resultCode !== '000000') {
-            this.$dialog.alert({ message: '服务器调用出错！' })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
+    initData () {
+      this.$http
+        .post(services.empSalary.empSalary)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data1 = this.dataTotal.result
+              } else {
+                this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+
+              // 进行跳转成功页面
+              // 成功后调用服务
+              // 给父组件传递flag标志，1为关闭当前，打开success。
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$dialog.alert({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+            // error callback
+          }
+        )
+    },
     show (index) {
       this.ifConfirm = true
       this.infoId = this.data1[index].id
@@ -310,7 +313,7 @@ export default {
     edit (value) {
       if (value) {
         this.ifConfirm = false
-        location.reload()
+        this.initData()
       }
     },
     export_excel () {

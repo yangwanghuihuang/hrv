@@ -124,45 +124,47 @@ export default {
   },
   watch: {},
   mounted () {
-    console.dir(localStorage.getItem('userWorkid'))
-    let tmp = {}
-    if (this.$route.params.userId) {
-      tmp = {
-        workid: this.$route.params.userId
-      }
-    } else {
-      tmp = {
-        workid: localStorage.getItem('userWorkid')
-      }
-    }
-
-    console.dir(tmp)
-    // emplyeeByworkId
-    this.$http
-      .post(services.employeeByWorid.employeeByWorid, tmp)
-      .then(
-        res => {
-          if (res.data && res) {
-            console.dir(res.data.result)
-            this.formValidate = res.data.result
-            console.dir(this.formValidate.phone)
-          } else if (res.data && res.data.resultCode !== '000000') {
-            this.$Message.warn({ message: '服务器调用出错！' })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
+    initData () {
+      let tmp = {}
+      if (this.$route.params.userId) {
+        tmp = {
+          workid: this.$route.params.userId
+        }
+      } else {
+        tmp = {
+          workid: localStorage.getItem('userWorkid')
+        }
+      }
+
+      console.dir(tmp)
+      // emplyeeByworkId
+      this.$http
+        .post(services.employeeByWorid.employeeByWorid, tmp)
+        .then(
+          res => {
+            if (res.data && res) {
+              console.dir(res.data.result)
+              this.formValidate = res.data.result
+              console.dir(this.formValidate.phone)
+            } else if (res.data && res.data.resultCode !== '000000') {
+              this.$Message.warn({ message: '服务器调用出错！' })
+            }
+          },
+          res => {
+            // error callback
+          }
+        )
+    },
     updateUserInfo () {
       this.$http
         .post(services.updateEmp.updateEmp, this.formValidate)
         .then(
           res => {
             if (res.data && res) {
-              location.reload()
+              this.initData()
             } else if (res.data && res.data.resultCode !== '000000') {
               this.$dialog.alert({ message: '服务器调用出错！' })
             }

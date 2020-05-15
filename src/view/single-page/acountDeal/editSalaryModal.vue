@@ -2,12 +2,18 @@
   <div class="editSalaryModal">
     <Modal v-model="modal2" width="800" @on-cancel="cancel">
       <p slot="header" style="color:#f60;text-align:left">
-        <Button type="primary" @click="del('0')">保存</Button>
+        <Button type="primary" @click="del('formValidate')">保存</Button>
 
         <Button type="primary" @click="del('1')">返回</Button>
       </p>
       <div style="text-align:left">
-        <Form ref="formValidate" label-position="right" :label-width="100" :model="formValidate">
+        <Form
+          ref="formValidate"
+          label-position="right"
+          :label-width="100"
+          :model="formValidate"
+          :rules="ruleFormValidate"
+        >
           <Row>
             <Col span="12">
               <FormItem label="账套名称" prop="name">
@@ -98,10 +104,6 @@
               </FormItem>
             </Col>
           </Row>
-          <FormItem>
-            <Button type="primary" @click="del('0')">提交</Button>
-            <Button type="primary" @click="del('1')">返回</Button>
-          </FormItem>
         </Form>
       </div>
       <div slot="footer"></div>
@@ -144,6 +146,28 @@ export default {
         unemploymentper: '',
         birthper: '',
         birthbase: ''
+      },
+      ruleFormValidate: {
+        name: { required: true, message: '请输入账套名称', trigger: 'blur' },
+        lunchsalary: [
+          { required: true, message: '请输入午餐补助', trigger: 'blur', pattern: /^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/ }
+        ],
+        basicsalary: { required: true, message: '请输入基本工资', trigger: 'blur', pattern: /^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/ },
+        trafficsalary: { required: true, message: '请输入交通补助', trigger: 'blur', pattern: /^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/ },
+        bonus: { required: true, message: '请输入奖金', trigger: 'blur', pattern: /^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/ },
+        pensionper: { required: true, message: '请输入养老比率，只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ },
+        pensionbase: { required: true, message: '请输入养老金基数', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        medicalper: { required: true, message: '请输入医疗比率，只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ },
+        createdate: { required: true, type: 'date', message: '请选择创建日期', trigger: 'blur' },
+        medicalbase: { required: true, message: '请输入医疗保险', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        accumulationfundbase: { required: true, message: '请输入公积金', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        accumulationfundper: { required: true, message: '请输入公积金比率，只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ },
+        injuryper: { required: true, message: '请输入工伤比率,只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ },
+        injurybase: { required: true, message: '请输入工伤保险', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        unemploymentbase: { required: true, message: '请输入失业保险', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        birthbase: { required: true, message: '请输入生育保险基数', trigger: 'blur', pattern: /^(([1-9]\d{0,9})|0)?$/ },
+        unemploymentper: { required: true, message: '请输入失业比率，只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ },
+        birthper: { required: true, message: '请输入生育比率，只允许为小数', trigger: 'blur', pattern: /^(0)(\.\d{0,2})?$/ }
       }
     }
   },
@@ -182,21 +206,26 @@ export default {
         this.$emit('edit', '1')
       }
       // 保存
-      if (value === '0') {
-        this.$http
-          .post(services.updateSalary.updateSalary, this.formValidate)
-          .then(
-            res => {
-              if (res.data && res) {
-                this.$emit('edit', '0')
-              } else if (res.data && res.data.resultCode !== '000000') {
-                // this.$dialog.alert({ message: '服务器调用出错！' })
-              }
-            },
-            res => {
-              // error callback
-            }
-          )
+      if (value === 'formValidate') {
+        this.$refs.formValidate.validate((valid) => {
+          if (valid) {
+            this.$http
+              .post(services.updateSalary.updateSalary, this.formValidate)
+              .then(
+                res => {
+                  if (res.data && res) {
+                    this.$emit('edit', '0')
+                  } else if (res.data && res.data.resultCode !== '000000') {
+                    // this.$dialog.alert({ message: '服务器调用出错！' })
+                  }
+                },
+                res => {
+                  // error callback
+                })
+          } else {
+            this.$Message.error('Fail!')
+          }
+        })
       }
     }
   }

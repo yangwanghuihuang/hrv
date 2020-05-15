@@ -219,65 +219,34 @@ export default {
   watch: {},
   mounted () {
     // 查询后台数据，当前workid的当月工资
-
-    let tmp = {
-      empworkid: localStorage.getItem('userWorkid')
-    }
-
-    this.$http
-      .post(services.empSalaryByMonth.empSalaryByMonth, tmp)
-      .then(
-
-        res => {
-          console.dir(res.data && res.data.result.length === 0)
-          if (res.data && res && res.data.result) {
-            this.dataTotal = res.data
-            this.dataCount = this.dataTotal.result.length
-            this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
-            if (this.dataTotal.result.length < this.pageSize) {
-              this.data1 = this.dataTotal.result
-            } else {
-              this.data1 = this.dataTotal.result.slice(0, this.pageSize)
-            }
-            //   this.createDate=new Date(res.data.result.createDateDesc)
-          }
-          if (res.data && res.data.result.length === 0) {
-            this.$Message.warning({
-              content: '该员工暂无工资数据!',
-              duration: 5
-            })
-          }
-        },
-        res => {
-          // error callback
-        }
-      )
+    this.initData()
   },
   methods: {
-    searchSalary () {
-      this.ifExist = false
-      this.ifshow = true
-      console.dir(localStorage.getItem('userWorkid'))
-
+    initData () {
       let tmp = {
-        yearandmonth: this.formSearch.dateRange,
         empworkid: localStorage.getItem('userWorkid')
       }
-
-      // 查询后台数据，当前workid的选择月份工资
 
       this.$http
         .post(services.empSalaryByMonth.empSalaryByMonth, tmp)
         .then(
+
           res => {
+            console.dir(res.data && res.data.result.length === 0)
             if (res.data && res && res.data.result) {
-              this.data2 = res.data.result
-              this.formValidate = this.data2[0]
-              console.dir(res.data.result.createDateDesc)
-              this.formValidate.createDate = res.data.result.createDateDesc
-            } else if (res.data && res.data.result === null) {
+              this.dataTotal = res.data
+              this.dataCount = this.dataTotal.result.length
+              this.totalPage = Math.ceil(this.dataTotal.result.length / this.pageSize)
+              if (this.dataTotal.result.length < this.pageSize) {
+                this.data1 = this.dataTotal.result
+              } else {
+                this.data1 = this.dataTotal.result.slice(0, this.pageSize)
+              }
+              //   this.createDate=new Date(res.data.result.createDateDesc)
+            }
+            if (res.data && res.data.result.length === 0) {
               this.$Message.warning({
-                content: '该员工本月无工资数据!',
+                content: '该员工暂无工资数据!',
                 duration: 5
               })
             }
@@ -286,6 +255,44 @@ export default {
             // error callback
           }
         )
+    },
+    searchSalary () {
+      if (this.formSearch.dateRange === '') {
+        this.ifExist = true
+        this.ifshow = false
+        this.initData()
+        console.dir(this.formSearch.dateRange)
+      } else {
+        this.ifExist = false
+        this.ifshow = true
+        let tmp = {
+          yearandmonth: this.formSearch.dateRange,
+          empworkid: localStorage.getItem('userWorkid')
+        }
+
+        // 查询后台数据，当前workid的选择月份工资
+
+        this.$http
+          .post(services.empSalaryByMonth.empSalaryByMonth, tmp)
+          .then(
+            res => {
+              if (res.data && res && res.data.result) {
+                this.data2 = res.data.result
+                this.formValidate = this.data2[0]
+                console.dir(res.data.result.createDateDesc)
+                this.formValidate.createDate = res.data.result.createDateDesc
+              } else if (res.data && res.data.result === null) {
+                this.$Message.warning({
+                  content: '该员工本月无工资数据!',
+                  duration: 5
+                })
+              }
+            },
+            res => {
+              // error callback
+            }
+          )
+      }
     },
     changepage (index) {
       console.dir(index)

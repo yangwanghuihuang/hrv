@@ -111,7 +111,12 @@
                 </Select>
               </FormItem>
               <FormItem label="在职状态：">
-                <Select v-model="formValidate.workstate" placeholder="请选择--" style="width:200px">
+                <Select
+                  disabled
+                  v-model="formValidate.workstate"
+                  placeholder="请选择--"
+                  style="width:200px"
+                >
                   <Option value="1" selected>试用期</Option>
                   <Option value="2">正式员工</Option>
                   <Option value="3">离职</Option>

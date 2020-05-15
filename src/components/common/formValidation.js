@@ -6,7 +6,7 @@ let formValidation = {
     if (value.length > 10) {
       return callback(new Error('内容长度请控制在10字符'))
     }
-    if (!value.match('^[a-zA-Z0-9_\u4e00-\u9fa5]+$')) {
+    if (!value.match('^[a-zA-Z0-9_-，。\u4e00-\u9fa5]+$')) {
       callback(new Error('禁止输入特殊字符#，%，&'))
     } else {
       callback()
