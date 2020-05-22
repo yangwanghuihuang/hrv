@@ -108,6 +108,9 @@ export default {
               this.$Message.success('Success')
               location.reload()
             }
+            if (res.data === '不允许上传同名文件') {
+              this.$Message.success('不允许上传同名文件')
+            }
           })
           .catch(error => {
             this.loadingStatus = false

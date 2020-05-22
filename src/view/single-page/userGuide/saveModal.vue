@@ -33,6 +33,7 @@
                   @on-change="formValidate.birthday=$event"
                   format="yyyy-MM-dd"
                   style="width: 200px"
+                  :options="options"
                 ></DatePicker>
               </FormItem>
               <FormItem label="籍贯：" prop="nativeplace">
@@ -76,6 +77,7 @@
                   placeholder="Select date  必填写"
                   style="width: 200px"
                   format="yyyy-MM-dd"
+                  :options="optionsEntry"
                 ></DatePicker>
               </FormItem>
               <!-- <FormItem label="转正日期：" prop="conversiontime">
@@ -106,7 +108,7 @@
                   <Option
                     v-for="item in PositonOption"
                     :value="item.value"
-                    :key="item.name"
+                    :key="item.value"
                   >{{ item.name }}</Option>
                 </Select>
               </FormItem>
@@ -157,6 +159,16 @@ export default {
       modal2: true,
       modal_loading: false,
       idDisabled: true,
+      options: {
+        disabledDate (date) {
+          return date && date.valueOf() > Date.now() - 86400000
+        }
+      },
+      optionsEntry: {
+        disabledDate (date) {
+          return date && date.valueOf() < Date.now() - 86400000
+        }
+      },
       formValidate: {
         name: '',
         nativeplace: '',

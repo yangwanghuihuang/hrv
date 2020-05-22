@@ -33,6 +33,7 @@
                   v-model="formValidate.birthday"
                   placeholder="Select date"
                   style="width: 200px"
+                  :options="options"
                 ></DatePicker>
               </FormItem>
               <FormItem label="籍贯：" prop="nativeplace">
@@ -77,7 +78,6 @@
                   disabled
                   type="date"
                   v-model="formValidate.begindate"
-                  @on-change="formValidate.begindate=$event"
                   format="yyyy-MM-dd"
                   placeholder="Select date"
                   style="width: 200px"
@@ -92,6 +92,7 @@
                   placeholder="Select date"
                   style="width: 200px"
                 ></DatePicker>
+                <!-- :options="optionsConver" -->
               </FormItem>
               <FormItem label="部门：" prop="departmentid">
                 <Select
@@ -106,12 +107,12 @@
                   >{{ item.name }}</Option>
                 </Select>
               </FormItem>
-              <FormItem label="职位：">
-                <Select :disabled="idDisabled" v-model="formValidate.posid" style="width:200px">
+              <FormItem label="职位：" prop="posid">
+                <Select v-model="formValidate.posid" style="width:200px">
                   <Option
                     v-for="item in PositonOption"
                     :value="item.value"
-                    :key="item.name"
+                    :key="item.value"
                   >{{ item.name }}</Option>
                 </Select>
               </FormItem>
@@ -140,7 +141,28 @@ export default {
         callback()
       }
     }
+    const isGtStartDate = (rule, value, callback) => {
+      if (new Date(value).getTime() < this.formValidate.begindate.getTime()) {
+        // alert('转正日期不得小于入职日期')
+        return callback(new Error('dada'))
+      } else {
+        callback()
+      }
+    }
+
     return {
+      options: {
+        disabledDate (date) {
+          return date && date.valueOf() > Date.now() - 86400000
+        }
+
+      },
+      // optionsConver: {
+      //   disabledDate (date) {
+      //     let boolean = date && date.valueOf() < Date.now() - 86400000
+      //     return boolean
+      //   }
+      // },
       modal2: true,
       modal_loading: false,
       idDisabled: true,
@@ -169,8 +191,11 @@ export default {
         nativeplace: { required: true, message: '选择籍贯', trigger: 'blur' },
         nationDesc: { required: true, message: '选择民族', trigger: 'blur' },
         phone: { required: true, validator: validatePhone, trigger: 'blur' },
-        workid: { required: true, message: '请输入员工工号', trigger: 'blur' }
-
+        workid: { required: true, message: '请输入员工工号', trigger: 'blur' },
+        conversiontime: [
+          { required: true, message: '请选择日期', trigger: 'change', pattern: /.+/ },
+          { message: '转正日期要大于入职日期', type: 'date', validator: isGtStartDate, trigger: 'blur' }
+        ]
       }
     }
   },
@@ -208,9 +233,8 @@ export default {
       .then(
         res => {
           if (res.data && res && res.data.result) {
-            console.dir(res.data)
             this.formValidate = res.data.result
-            console.dir(res.data.result.tiptopdegree)
+
             if (res.data.result.tiptopdegree === '高中') {
               this.formValidate.tiptopDegree = '高中'
               console.dir(this.formValidate.tiptopDegree.value)
@@ -225,13 +249,19 @@ export default {
       )
   },
   methods: {
+
     del (value) {
       if (value === '1') {
         this.$emit('edit', '1')
       }
     },
     handleSubmit (formValidate) {
-      this.$refs[formValidate].validate((valid) => {
+      // console.dir(this.$refs.formValidate)
+      // console.dir(this.$refs[formValidate])
+      this.$refs.formValidate.validate((valid) => {
+        console.dir(this.formValidate.conversiontime)
+        console.log(valid)
+
         if (valid) {
           this.$http
             .post(services.updateEmp.updateEmp, this.formValidate)
@@ -239,9 +269,6 @@ export default {
               res => {
                 if (res.data && res) {
                   this.$emit('edit', '0')
-                  // 进行跳转成功页面
-                  // 成功后调用服务
-                  // 给父组件传递flag标志，1为关闭当前，打开success。
                 } else if (res.data && res.data.resultCode !== '000000') {
                   this.$dialog.alert({ message: '服务器调用出错！' })
                 }
@@ -251,7 +278,8 @@ export default {
               }
             )
         } else {
-          this.$Message.error('Fail!')
+          alert('修改操作失败！')
+          // this.$dialog.alert({ message: '修改操作失败！' })
         }
       })
     },
