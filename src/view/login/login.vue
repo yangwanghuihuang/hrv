@@ -33,7 +33,7 @@ export default {
   .login {
     height: 100%;
     width: 100%;
-    background-image: url("../../assets/images/loginForm.png");
+    background-image: url('../../assets/images/login_bg1.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }

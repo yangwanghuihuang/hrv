@@ -18,6 +18,8 @@ import formValidation from './components/common/formValidation'
 import 'handsontable/dist/handsontable.full.css'
 // import Print from 'vue-print-nb'
 import Print from './plugin/print'
+var vueResource = require('vue-resource')
+Vue.use(vueResource)
 Vue.use(ViewUI)
 Vue.use(HttpPlugin)
 Vue.use(Print)

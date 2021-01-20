@@ -15,6 +15,9 @@ export default {
   login: {
     checkToken: '/vhrServer/api/admin/v1.0/goLogin'
   },
+  // loginAuth: {
+  //   loginAuth: '/login_auth'
+  // },
   getValidation: {
     getValidation: '/vhrServer/api/admin/v1.0/getValidate' // 获取验证码
   },

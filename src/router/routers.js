@@ -29,14 +29,7 @@ export default [
     },
     component: () => import('@/view/login/login.vue')
   },
-  {
-    path: '/excelDemoPrint',
-    name: 'excelDemoPrint',
-    meta: {
-      title: '在线excel Demo打印'
-    },
-    component: () => import('@/view/home/excelDemoPrint.vue')
-  },
+
   {
     path: '/pages',
     name: 'pages',
@@ -69,38 +62,6 @@ export default [
         },
         component: () => import('@/view/single-page/announcement/announcement.vue')
       },
-      {
-        path: 'wrongReport',
-        name: 'wrongReport',
-        meta: {
-          title: '错单报表'
-        },
-        component: () => import('@/view/single-page/userGuide/wrongReport.vue')
-      },
-      {
-        path: 'statisticalReports',
-        name: 'statisticalReports',
-        meta: {
-          title: '统计报表'
-        },
-        component: () => import('@/view/single-page/userGuide/statisticalReports.vue')
-      },
-      {
-        path: 'checkConfig',
-        name: 'checkConfig',
-        meta: {
-          title: '校对配置'
-        },
-        component: () => import('@/view/single-page/userGuide/checkConfig.vue')
-      },
-      {
-        path: 'wrongReportConfig',
-        name: 'wrongReportConfig',
-        meta: {
-          title: '错单配置'
-        },
-        component: () => import('@/view/single-page/userGuide/wrongReportConfig.vue')
-      },
 
       {
         path: 'employSalary',
@@ -110,46 +71,7 @@ export default [
         },
         component: () => import('@/view/single-page/acountDeal/employSalary.vue')
       },
-      {
-        path: 'expend',
-        name: 'expend',
-        meta: {
-          title: '结算出账'
-        },
-        component: () => import('@/view/single-page/acountDeal/expend.vue')
-      },
-      {
-        path: 'expendDetail',
-        name: 'expendDetail',
-        meta: {
-          title: '结算出账详情'
-        },
-        component: () => import('@/view/single-page/acountDeal/expendDetail.vue')
-      },
-      {
-        path: 'expendConfirm',
-        name: 'expendConfirm',
-        meta: {
-          title: '结算出账确认'
-        },
-        component: () => import('@/view/single-page/acountDeal/expendConfirm.vue')
-      },
-      {
-        path: 'expendBack',
-        name: 'expendBack',
-        meta: {
-          title: '出账回退'
-        },
-        component: () => import('@/view/single-page/acountDeal/expendBack.vue')
-      },
-      {
-        path: 'plugins',
-        name: 'plugins',
-        meta: {
-          title: '外挂程序'
-        },
-        component: () => import('@/view/single-page/acountDeal/plugins.vue')
-      },
+
       {
         path: 'settleReport',
         name: 'settleReport',
@@ -158,63 +80,7 @@ export default [
         },
         component: () => import('@/view/single-page/settleReport/settleReport.vue')
       },
-      {
-        path: 'excelDemo',
-        name: 'excelDemo',
-        meta: {
-          title: '在线excel Demo'
-        },
-        component: () => import('@/view/single-page/settleReport/excelDemo.vue')
-      },
-      {
-        path: 'report',
-        name: 'report',
-        meta: {
-          title: '总表'
-        },
-        component: () => import('@/view/single-page/settleReport/report.vue')
-      },
-      {
-        path: 'littleReport',
-        name: 'littleReport',
-        meta: {
-          title: '分表'
-        },
-        component: () => import('@/view/single-page/settleReport/littleReport.vue')
-      },
-      {
-        path: 'invoiceExcel',
-        name: 'invoiceExcel',
-        meta: {
-          title: '收入发票明细'
-        },
-        component: () => import('@/view/single-page/settleReport/invoiceExcel.vue')
-      },
-      {
-        path: 'invoicePage',
-        name: 'invoicePage',
-        meta: {
-          title: '发票明细'
-        },
-        component: () => import('@/view/single-page/settleReport/invoicePage.vue')
-      },
-      {
-        path: 'total2detailCompare',
-        name: 'total2detailCompare',
-        meta: {
-          title: '总分校对'
-        },
-        component: () => import('@/view/single-page/settleReport/total2detailCompare.vue')
-      },
 
-      {
-        path: 'divideReport',
-        name: 'divideReport',
-        meta: {
-          title: '分表拆分'
-        },
-        component: () => import('@/view/single-page/reportSend/divideReport.vue')
-      },
       {
         path: 'userInfo',
         name: 'userInfo',
@@ -254,6 +120,14 @@ export default [
           title: '政策查询'
         },
         component: () => import('@/view/single-page/userInfo/userPolicy.vue')
+      },
+      {
+        path: 'loginTest',
+        name: 'loginTest',
+        meta: {
+          title: '政策查询'
+        },
+        component: () => import('@/view/login/loginTest.vue')
       }
     ]
   },

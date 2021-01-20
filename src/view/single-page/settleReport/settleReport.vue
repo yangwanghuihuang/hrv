@@ -76,8 +76,7 @@
 
 <script>
 import services from '../../../api/services'
-import cycleData from './settleCycleModal'
-import expendTask from './expendTask'
+
 import { export2Excel } from '../../../components/common/js/util'
 export default {
   components: {
@@ -112,7 +111,11 @@ export default {
       // 每页显示多少条
       pageSize: 10,
       columns4: [
-
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
         {
           title: '编号',
           key: 'id',
@@ -255,7 +258,7 @@ export default {
       }))
     },
     export_excel () {
-      export2Excel(this.columns4, this.data1, '综合信息列表')
+      export2Excel(this.columns4, this.data1)
     },
     handleSubmit () {
       console.dir(this.formValidate.conversiontime)
@@ -338,9 +341,9 @@ export default {
   }
 }
 button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
+html [type='button'],
+[type='reset'],
+[type='submit'] {
   width: 90px;
   margin-left: 15px;
 }
