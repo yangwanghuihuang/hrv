@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import land from './land'
+import land from './loginTest'
 export default {
   components: {
     land

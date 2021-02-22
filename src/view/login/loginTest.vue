@@ -94,8 +94,8 @@ export default {
           // // let CryptoJS_password = this.$publicFunc.encrypt(this.loginForm.password)
           let formData = {
             username: this.loginForm.username,
-            password: this.loginForm.password
-            // authority: this.loginForm.identifyCodes
+            password: this.loginForm.password,
+            authority: this.loginForm.identifyCodes
           }
           this.$http.post(services.login.checkToken, formData).then(res => {
             if (res && res.data && res.data.result) {
